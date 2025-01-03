@@ -1,3 +1,7 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "cmake.sourceDirectory": "C:/Users/Dani/Desktop/Joki_ilhamAfandi/app/super_store_ecommerce_flutter/windows/flutter",
+    "java.jdt.ls.java.home": "",
+    "java.format.settings.url": "eclipse-formatter.xml",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

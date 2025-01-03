@@ -5,11 +5,25 @@ class AppNameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    double width = MediaQuery.of(context).size.width;
+    // double height = MediaQuery.of(context).size.height;
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        TextBuilder(text: 'SUPER ', color: AppColors.kBlue, fontSize: 30, fontWeight: FontWeight.w700),
-        TextBuilder(text: 'STORE', color: AppColors.kGreen, fontSize: 30),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextBuilder(
+                text: 'TOMA ',
+                color: Colors.orange,
+                fontSize: width * 0.05,
+                fontWeight: FontWeight.w800),
+            TextBuilder(
+                text: 'STORE',
+                fontSize: width * 0.05,
+                fontWeight: FontWeight.w800),
+          ],
+        ),
       ],
     );
   }

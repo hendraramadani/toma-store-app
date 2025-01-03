@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:super_store_e_commerce_flutter/imports.dart';
 
 class UrlLaunch {
@@ -9,7 +10,8 @@ class UrlLaunch {
     await launchUrl(launchUri);
   }
 
-  static Future makeEmail({String? email, String? subject, String? body}) async {
+  static Future makeEmail(
+      {String? email, String? subject, String? body}) async {
     final Uri params = Uri(
       scheme: 'mailto',
       path: email,

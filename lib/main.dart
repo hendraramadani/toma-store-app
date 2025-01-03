@@ -1,7 +1,7 @@
 import 'package:super_store_e_commerce_flutter/imports.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -10,12 +10,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    precacheImage(const AssetImage("assets/images/invoice.png"), context);
+    precacheImage(const AssetImage("assets/images/invoice10.png"), context);
+    precacheImage(const AssetImage("assets/images/logo.jpg"), context);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<CartProvider>(create: (context) => CartProvider()),
+        ChangeNotifierProvider<CartProvider>(
+            create: (context) => CartProvider()),
       ],
       child: MaterialApp(
-        title: RawString.appName,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,

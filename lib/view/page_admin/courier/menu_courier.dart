@@ -28,9 +28,9 @@ class _AdminCourierMenuState extends State<AdminCourierMenu> {
               primary: false,
               padding: const EdgeInsets.all(20),
               shrinkWrap: true,
-              crossAxisSpacing: 20,
+              crossAxisSpacing: 5,
               mainAxisSpacing: 5,
-              crossAxisCount: 2,
+              crossAxisCount: 4,
               children: <Widget>[
                 Card(
                   elevation: 8,
@@ -58,15 +58,23 @@ class _AdminCourierMenuState extends State<AdminCourierMenu> {
                           Icon(
                             Icons.local_shipping_outlined,
                             color: Colors.orange,
-                            size: width * 0.15,
+                            size: width * 0.05,
                           ),
                           Text(
-                            "Tambah Kurir",
+                            "Tambah",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: width * 0.04,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                              fontSize: width * 0.02,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "Kurir",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: width * 0.02,
+                              color: Colors.black,
+                            ),
                           )
                         ],
                       ),
@@ -98,15 +106,19 @@ class _AdminCourierMenuState extends State<AdminCourierMenu> {
                           Icon(
                             Icons.manage_accounts_outlined,
                             color: Colors.orange,
-                            size: width * 0.15,
+                            size: width * 0.05,
                           ),
                           Text(
-                            "Kelola Kurir",
+                            "Kelola",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: width * 0.04,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                                fontSize: width * 0.02, color: Colors.black),
+                          ),
+                          Text(
+                            "Kurir",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: width * 0.02, color: Colors.black),
                           )
                         ],
                       ),

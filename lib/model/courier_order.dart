@@ -94,6 +94,7 @@ class Order {
   DateTime createdAt;
   DateTime updatedAt;
   String name;
+  String phone;
   String address;
   String status;
 
@@ -106,6 +107,7 @@ class Order {
     required this.createdAt,
     required this.updatedAt,
     required this.name,
+    required this.phone,
     required this.address,
     required this.status,
   });
@@ -119,6 +121,7 @@ class Order {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         name: json["name"],
+        phone: json["user_phone"],
         address: json["address"],
         status: json["status"],
       );
@@ -132,6 +135,7 @@ class Order {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "name": name,
+        "user_phone": phone,
         "address": address,
         "status": status,
       };

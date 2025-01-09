@@ -2,6 +2,7 @@ import 'package:super_store_e_commerce_flutter/imports.dart';
 import 'package:super_store_e_commerce_flutter/model/user_order.dart';
 import 'package:intl/intl.dart';
 import 'package:rounded_background_text/rounded_background_text.dart';
+import 'package:super_store_e_commerce_flutter/view/page_user/utils/whatsapp_launcher.dart';
 
 class UserOrder extends StatefulWidget {
   const UserOrder({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class _OrderState extends State<UserOrder> {
   final formatCurrency = NumberFormat.simpleCurrency(locale: 'id_ID');
   String selectedValue = '1';
   bool isLoadingData = false;
+  String store_name = '';
 
   late List<UserOrderModel>? userOrder = [];
   Future<List<UserOrderModel>?> _useOrder() async {
@@ -90,7 +92,10 @@ class _OrderState extends State<UserOrder> {
                                           fontWeight: FontWeight.bold)),
                                   Text(
                                       DateFormat('dd MMM yyyy HH:mm').format(
-                                          userOrder![index].order.createdAt),
+                                          userOrder![index]
+                                              .order
+                                              .createdAt
+                                              .toLocal()),
                                       style: const TextStyle(fontSize: 12)),
                                   if (userOrder![index].order.statusOrderId ==
                                       1)
@@ -155,6 +160,13 @@ class _OrderState extends State<UserOrder> {
                                             "Total Harga : ${formatCurrency.format((userOrder![index].order.totalCost)).toString()}",
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
+                                    Divider(),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
@@ -200,6 +212,33 @@ class _OrderState extends State<UserOrder> {
                                                   },
                                                   child: const Text(
                                                     'Batalkan Pesanan',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 12),
+                                                  )),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            if (userOrder![index]
+                                                        .order
+                                                        .statusOrderId ==
+                                                    1 ||
+                                                userOrder![index]
+                                                        .order
+                                                        .statusOrderId ==
+                                                    2)
+                                              TextButton(
+                                                  style: TextButton.styleFrom(
+                                                      side: const BorderSide(
+                                                          width: 1.5,
+                                                          color: Colors.green)),
+                                                  onPressed: () {
+                                                    whatsapp(userOrder![index]
+                                                        .order
+                                                        .courierPhone);
+                                                  },
+                                                  child: const Text(
+                                                    'Whatsapp Kurir',
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 12),
@@ -261,7 +300,7 @@ class _OrderState extends State<UserOrder> {
                                           ],
                                         )
                                       ],
-                                    ),
+                                    )
                                   ],
                                 ),
                               ),
@@ -320,37 +359,60 @@ class _OrderState extends State<UserOrder> {
                     shrinkWrap: true,
                     itemCount: data.detail.length,
                     itemBuilder: (context, index) {
-                      return Row(
+                      // store_name = data.detail[index].storeName;
+
+                      if (data.detail[index].storeName != store_name) {
+                        store_name = data.detail[index].storeName;
+                        print(store_name);
+                      } else {
+                        store_name = '';
+                      }
+
+                      return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Text(
-                              "${index + 1}. ${data.detail[index].productName} (${data.detail[index].amount} pcs) ",
+                          if (store_name != '') Divider(),
+                          if (store_name != '')
+                            Text(
+                              'Toko : ${store_name}',
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Text(
+                                  "${index + 1}. ${data.detail[index].productName} (${data.detail[index].amount} pcs) ",
+                                  style: const TextStyle(fontSize: 15),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Text(
+                                  formatCurrency
+                                      .format(data.detail[index].cost)
+                                      .toString(),
+                                  style: const TextStyle(fontSize: 15),
+                                ),
+                              )
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Text(
-                              formatCurrency
-                                  .format(data.detail[index].cost)
-                                  .toString(),
-                            ),
-                          )
                         ],
                       );
                     },
                   ),
                   Column(
                     children: [
-                      const Divider(),
+                      Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
                             "Total : ${formatCurrency.format(data.order.totalCost).toString()}",
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
                           )
                         ],
                       )

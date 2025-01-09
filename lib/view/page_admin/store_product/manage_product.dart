@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:super_store_e_commerce_flutter/imports.dart';
 import 'package:super_store_e_commerce_flutter/model/admin_product.dart';
 
@@ -33,11 +36,11 @@ class _ManageProductState extends State<ManageProduct> {
         (await GetProductCategoryApiService().getProductCategory());
   }
 
-  Future<List<AdminProductModel>?> updateProduct(
-      id, name, stock, description, cost, productCategorieId, storeId) async {
+  Future<List<AdminProductModel>?> updateProduct(id, name, stock, description,
+      cost, productCategorieId, storeId, image) async {
     List<AdminProductModel>? responseData = (await ProductApiService()
-        .updateProduct(
-            id, name, stock, description, cost, productCategorieId, storeId));
+        .updateProduct(id, name, stock, description, cost, productCategorieId,
+            storeId, image));
 
     return responseData;
   }
@@ -271,11 +274,14 @@ class _ManageProductState extends State<ManageProduct> {
     final TextEditingController descriptionController = TextEditingController();
     final TextEditingController costController = TextEditingController();
 
-    // final storeDropdownKey = GlobalKey<DropdownSearchState<StoreModel>>();
-    // final productCategoryDropdownKey =
-    //     GlobalKey<DropdownSearchState<ProductCategoryModel>>();
+    StateSetter _setState;
+    File? _image;
+    final picker = ImagePicker();
     var dropdownStoreValue = data.storeId;
     var dropdownProductCategoryValue = data.productCategorieId;
+
+    //Image Picker function to get image from gallery
+
     setState(() {
       nameController.text = data.name;
       stockController.text = data.stock.toString();
@@ -287,8 +293,62 @@ class _ManageProductState extends State<ManageProduct> {
       useSafeArea: true,
       barrierDismissible: true,
       builder: (context) {
-        return Center(
-          child: AlertDialog(
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+          _setState = setState;
+
+          Future getImageFromGallery() async {
+            final pickedFile = await picker.pickImage(
+                source: ImageSource.gallery, imageQuality: 50);
+
+            _setState(() {
+              if (pickedFile != null) {
+                _image = File(pickedFile.path);
+              }
+            });
+          }
+
+          //Image Picker function to get image from camera
+          Future getImageFromCamera() async {
+            final pickedFile = await picker.pickImage(
+                source: ImageSource.camera, imageQuality: 50);
+
+            _setState(() {
+              if (pickedFile != null) {
+                _image = File(pickedFile.path);
+              }
+            });
+          }
+
+          Future showOptions() async {
+            showCupertinoModalPopup(
+              context: context,
+              builder: (context) => CupertinoActionSheet(
+                actions: [
+                  CupertinoActionSheetAction(
+                    child: const Text('Photo Gallery'),
+                    onPressed: () {
+                      // close the options modal
+                      Navigator.of(context).pop();
+                      // get image from gallery
+                      getImageFromGallery().then((result) {});
+                    },
+                  ),
+                  CupertinoActionSheetAction(
+                    child: const Text('Camera'),
+                    onPressed: () {
+                      // close the options modal
+                      Navigator.of(context).pop();
+                      // get image from camera
+                      getImageFromCamera().then((result) {});
+                    },
+                  ),
+                ],
+              ),
+            );
+          }
+
+          return AlertDialog(
             actionsPadding: EdgeInsets.zero,
             buttonPadding: EdgeInsets.zero,
             contentPadding: const EdgeInsets.all(15),
@@ -456,6 +516,46 @@ class _ManageProductState extends State<ManageProduct> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 10.0),
+                    Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all()),
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          IconButton(
+                            style: IconButton.styleFrom(
+                                backgroundColor: Colors.grey),
+                            onPressed: showOptions,
+                            icon: const Icon(
+                              // color: Colors.blueGrey,
+                              Icons.image,
+                              size: 30,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          // ElevatedButton(
+                          //     onPressed: showOptions,
+                          //     child: const Icon(Icons.image)),
+                          _image == null
+                              ? TextButton(
+                                  onPressed: () {
+                                    showOptions();
+                                  },
+                                  child: const Text(
+                                    'Pilih Gambar !',
+                                    style: TextStyle(color: Colors.black87),
+                                  ))
+                              : Image.file(_image!),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -475,7 +575,8 @@ class _ManageProductState extends State<ManageProduct> {
                                 descriptionController.text,
                                 costController.text,
                                 dropdownProductCategoryValue,
-                                dropdownStoreValue)
+                                dropdownStoreValue,
+                                _image)
                             .then(
                           (result) {
                             QuickAlert.show(
@@ -510,8 +611,8 @@ class _ManageProductState extends State<ManageProduct> {
                 ],
               )
             ],
-          ),
-        );
+          );
+        });
       },
     );
   }

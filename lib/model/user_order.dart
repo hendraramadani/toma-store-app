@@ -41,6 +41,7 @@ class Detail {
   DateTime createdAt;
   DateTime updatedAt;
   String productName;
+  String storeName;
   String productImage;
 
   Detail({
@@ -52,6 +53,7 @@ class Detail {
     required this.createdAt,
     required this.updatedAt,
     required this.productName,
+    required this.storeName,
     required this.productImage,
   });
 
@@ -64,6 +66,7 @@ class Detail {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         productName: json["product_name"],
+        storeName: json["store_name"],
         productImage: json["product_image"],
       );
 
@@ -76,6 +79,7 @@ class Detail {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "product_name": productName,
+        "store_name": storeName,
         "product_image": productImage,
       };
 }
@@ -85,6 +89,7 @@ class Order {
   int userId;
   dynamic courierId;
   dynamic courierName;
+  dynamic courierPhone;
   int statusOrderId;
   int totalCost;
   DateTime createdAt;
@@ -98,6 +103,7 @@ class Order {
     required this.userId,
     required this.courierId,
     required this.courierName,
+    required this.courierPhone,
     required this.statusOrderId,
     required this.totalCost,
     required this.createdAt,
@@ -112,6 +118,7 @@ class Order {
         userId: json["user_id"],
         courierId: json["courier_id"],
         courierName: json["courier_name"],
+        courierPhone: json["courier_phone"],
         statusOrderId: json["status_order_id"],
         totalCost: json["total_cost"],
         createdAt: DateTime.parse(json["created_at"]),
@@ -126,6 +133,7 @@ class Order {
         "user_id": userId,
         "courier_id": courierId,
         "courier_name": courierName,
+        "courier_phone": courierPhone,
         "status_order_id": statusOrderId,
         "total_cost": totalCost,
         "created_at": createdAt.toIso8601String(),

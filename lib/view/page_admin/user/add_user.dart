@@ -215,7 +215,7 @@ class _AddUserState extends State<AdminAddUser> {
                           //     (route) => false);
                         },
                         child: const TextBuilder(
-                          text: 'Tambah Pengguna',
+                          text: 'Tambah Pelanggan',
                           color: Colors.white,
                           fontSize: 20.0,
                           fontWeight: FontWeight.normal,

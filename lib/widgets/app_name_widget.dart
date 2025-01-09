@@ -16,12 +16,8 @@ class AppNameWidget extends StatelessWidget {
             TextBuilder(
                 text: 'TOMA ',
                 color: Colors.orange,
-                fontSize: width * 0.05,
-                fontWeight: FontWeight.w800),
-            TextBuilder(
-                text: 'STORE',
-                fontSize: width * 0.05,
-                fontWeight: FontWeight.w800),
+                fontWeight: FontWeight.bold),
+            TextBuilder(text: 'STORE', fontWeight: FontWeight.bold),
           ],
         ),
       ],

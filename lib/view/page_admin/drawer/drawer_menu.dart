@@ -33,37 +33,37 @@ class _DrawerMenuState extends State<AdminDrawerMenu> {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Drawer(
-        width: width * 0.6,
+        width: 300,
         child: Column(
           children: [
             Expanded(
               child: Column(
                 children: [
                   SizedBox(
-                      height: height * 0.17,
+                      height: 150,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             CircleAvatar(
-                              radius: width * 0.05,
+                              // radius: width * 0.05,
                               backgroundColor: Colors.white,
                               backgroundImage:
                                   NetworkImage(RawString.appLogoURL),
                             ),
-                            SizedBox(width: width * 0.02),
+                            SizedBox(width: 15),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 TextBuilder(
                                     text: userName,
-                                    fontSize: width * 0.04,
+                                    // fontSize: width * 0.04,
                                     fontWeight: FontWeight.bold),
                                 TextBuilder(
                                     text: userEmail,
-                                    fontSize: width * 0.025,
+                                    // fontSize: width * 0.025,
                                     fontWeight: FontWeight.normal),
                               ],
                             ),
@@ -84,11 +84,9 @@ class _DrawerMenuState extends State<AdminDrawerMenu> {
                           leading: Icon(
                             Icons.home_outlined,
                             color: Colors.black,
-                            size: width * 0.06,
                           ),
                           title: TextBuilder(
                               text: "Home",
-                              fontSize: width * 0.04,
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
@@ -102,11 +100,11 @@ class _DrawerMenuState extends State<AdminDrawerMenu> {
                           leading: Icon(
                             Icons.storefront_outlined,
                             color: Colors.black,
-                            size: width * 0.06,
+                            // size: width * 0.06,
                           ),
                           title: TextBuilder(
                               text: "Toko & Produk",
-                              fontSize: width * 0.04,
+                              // fontSize: width * 0.04,
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
@@ -120,11 +118,11 @@ class _DrawerMenuState extends State<AdminDrawerMenu> {
                           leading: Icon(
                             Icons.list_alt_outlined,
                             color: Colors.black,
-                            size: width * 0.06,
+                            // size: width * 0.06,
                           ),
                           title: TextBuilder(
                               text: "Pesanan",
-                              fontSize: width * 0.04,
+                              // fontSize: width * 0.04,
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
@@ -138,11 +136,11 @@ class _DrawerMenuState extends State<AdminDrawerMenu> {
                           leading: Icon(
                             Icons.local_shipping_outlined,
                             color: Colors.black,
-                            size: width * 0.06,
+                            // size: width * 0.06,
                           ),
                           title: TextBuilder(
                               text: "Kurir",
-                              fontSize: width * 0.04,
+                              // fontSize: width * 0.04,
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
@@ -156,11 +154,11 @@ class _DrawerMenuState extends State<AdminDrawerMenu> {
                           leading: Icon(
                             Icons.person_outline,
                             color: Colors.black,
-                            size: width * 0.06,
+                            // size: width * 0.06,
                           ),
                           title: TextBuilder(
                               text: "Pengguna",
-                              fontSize: width * 0.04,
+                              // fontSize: width * 0.04,
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
@@ -174,11 +172,11 @@ class _DrawerMenuState extends State<AdminDrawerMenu> {
                           leading: Icon(
                             Icons.edit_document,
                             color: Colors.black,
-                            size: width * 0.06,
+                            // size: width * 0.06,
                           ),
                           title: TextBuilder(
                               text: "Laporan",
-                              fontSize: width * 0.04,
+                              // fontSize: width * 0.04,
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
@@ -196,7 +194,7 @@ class _DrawerMenuState extends State<AdminDrawerMenu> {
                   const AppNameWidget(),
                   TextBuilder(
                     text: RawString.appDescription,
-                    fontSize: width * 0.025,
+                    fontSize: 8,
                   ),
                 ],
               ),

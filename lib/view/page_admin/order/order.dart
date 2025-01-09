@@ -14,6 +14,7 @@ class _OrderState extends State<AdminOrder> {
   final formatCurrency = NumberFormat.simpleCurrency(locale: 'id_ID');
   bool isLoading = false;
   TextEditingController editingController = TextEditingController();
+  String store_name = '';
 
   List<AdminOrderModel>? items = [];
 
@@ -125,7 +126,8 @@ class _OrderState extends State<AdminOrder> {
                                               DateFormat('dd MMM yyyy HH:mm')
                                                   .format(items![index]
                                                       .order
-                                                      .createdAt),
+                                                      .createdAt
+                                                      .toLocal()),
                                               style: const TextStyle(
                                                   fontSize: 12)),
                                           if (items![index]
@@ -309,51 +311,62 @@ class _OrderState extends State<AdminOrder> {
                     shrinkWrap: true,
                     itemCount: data.detail.length,
                     itemBuilder: (context, index) {
-                      return Row(
+                      // store_name = data.detail[index].storeName;
+
+                      if (data.detail[index].storeName != store_name) {
+                        store_name = data.detail[index].storeName;
+                        print(store_name);
+                      } else {
+                        store_name = '';
+                      }
+
+                      return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(
-                            // width: 2,
-                            child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${index + 1}. ",
-                                        ),
-                                        Text(
-                                            "${data.detail[index].productName} (${data.detail[index].amount} pcs) ")
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Text(
-                              formatCurrency
-                                  .format(data.detail[index].cost)
-                                  .toString(),
+                          if (store_name != '') Divider(),
+                          if (store_name != '')
+                            Text(
+                              'Toko : ${store_name}',
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                          )
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Text(
+                                  "${index + 1}. ${data.detail[index].productName} (${data.detail[index].amount} pcs) ",
+                                  style: const TextStyle(fontSize: 15),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Text(
+                                  formatCurrency
+                                      .format(data.detail[index].cost)
+                                      .toString(),
+                                  style: const TextStyle(fontSize: 15),
+                                ),
+                              )
+                            ],
+                          ),
                         ],
                       );
                     },
                   ),
-                  const Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Column(
                     children: [
-                      const SizedBox(),
-                      Text(
-                        "Total : ${formatCurrency.format(data.order.totalCost).toString()}",
-                        style: const TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Total : ${formatCurrency.format(data.order.totalCost).toString()}",
+                            style: const TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          )
+                        ],
                       )
                     ],
                   )

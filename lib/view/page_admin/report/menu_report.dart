@@ -3,6 +3,7 @@ import 'package:super_store_e_commerce_flutter/model/report.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:super_store_e_commerce_flutter/services/dowload_progress.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class AdminMenuReport extends StatefulWidget {
   const AdminMenuReport({Key? key}) : super(key: key);
@@ -329,10 +330,11 @@ class _MenuReportState extends State<AdminMenuReport> {
                       color: Colors.orange,
                       size: width * 0.1,
                     ),
-                    const Text(
+                    Text(
                       "Toko",
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Colors.black, fontSize: width * 0.03),
                     )
                   ],
                 ),
@@ -388,10 +390,11 @@ class _MenuReportState extends State<AdminMenuReport> {
                       color: Colors.orange,
                       size: width * 0.1,
                     ),
-                    const Text(
+                    Text(
                       "Produk",
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Colors.black, fontSize: width * 0.03),
                     )
                   ],
                 ),

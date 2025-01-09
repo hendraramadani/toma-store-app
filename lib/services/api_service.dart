@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:super_store_e_commerce_flutter/imports.dart';
 import 'package:super_store_e_commerce_flutter/model/admin_courier.dart';
 import 'package:super_store_e_commerce_flutter/model/courier_status_active.dart';
+import 'package:super_store_e_commerce_flutter/model/graph_order_count_by_month.dart';
 
 import 'package:super_store_e_commerce_flutter/model/product.dart';
 import 'package:super_store_e_commerce_flutter/model/report.dart';
@@ -324,7 +325,7 @@ class StoreApiService {
     return null;
   }
 
-  Future<List<StoreModel>?> updateStore(id, name, phone, address) async {
+  Future<List<StoreModel>?> updateStore(id, name, phone, address, image) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token').toString();
     print(token);
@@ -332,6 +333,7 @@ class StoreApiService {
       "name": name,
       "phone": phone,
       "address": address,
+      "image": base64Encode(image.readAsBytesSync()),
     };
     var body = json.encode(bodyFill);
 
@@ -490,8 +492,8 @@ class ProductApiService {
     return null;
   }
 
-  Future<List<AdminProductModel>?> updateProduct(
-      id, name, stock, description, cost, productCategorieId, storeId) async {
+  Future<List<AdminProductModel>?> updateProduct(id, name, stock, description,
+      cost, productCategorieId, storeId, image) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token').toString();
     print(token);
@@ -501,12 +503,13 @@ class ProductApiService {
       "description": description,
       "cost": cost,
       "product_categorie_id": productCategorieId,
-      "store_id": storeId
+      "store_id": storeId,
+      "image": base64Encode(image.readAsBytesSync()),
     };
     var body = json.encode(bodyFill);
     try {
       var url = Uri.parse(
-          '${ApiConst.baseEndpoint}${ApiConst.api}${ApiConst.product}/${id}');
+          '${ApiConst.baseEndpoint}${ApiConst.api}${ApiConst.product}/$id');
       var response = await http.put(url, body: body, headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token'
@@ -912,8 +915,9 @@ class CourierApiService {
   Future<void> deliverOrderCourier(orderId) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token').toString();
+    var courierId = prefs.getInt('courier_id');
 
-    var bodyFill = {"order_id": orderId};
+    var bodyFill = {"order_id": orderId, "courier_id": courierId};
     var body = json.encode(bodyFill);
 
     try {
@@ -1738,6 +1742,45 @@ class ReportApiService {
       if (response.statusCode == 200) {
         print([response.statusCode, response.body]);
         List<ReportModel> model = reportModelFromJson(response.body);
+        // print(_model[0].data);
+        return model;
+      } else if (response.statusCode == 422) {
+        //debug
+        //Fail handler
+        print([response.statusCode, response.body]);
+        // return _model;
+      } else if (response.statusCode == 500) {
+        //debug
+        //Fail handler
+        print(response.statusCode);
+        // return _model;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+}
+
+///////////////////////////////// [/Graph RESOURCE]
+///
+class GraphApiService {
+  Future<List<List<int>>?> getCountOrderByMonth() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token').toString();
+    print(token);
+
+    try {
+      var url = Uri.parse(
+          ApiConst.baseEndpoint + ApiConst.api + ApiConst.getadmincountorder);
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      });
+
+      if (response.statusCode == 200) {
+        print([response.statusCode, response.body]);
+        List<List<int>> model = orderCountByMonthFromJson(response.body);
         // print(_model[0].data);
         return model;
       } else if (response.statusCode == 422) {

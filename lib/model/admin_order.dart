@@ -42,6 +42,7 @@ class Detail {
   DateTime createdAt;
   DateTime updatedAt;
   String productName;
+  String storeName;
   String productImage;
 
   Detail({
@@ -53,6 +54,7 @@ class Detail {
     required this.createdAt,
     required this.updatedAt,
     required this.productName,
+    required this.storeName,
     required this.productImage,
   });
 
@@ -65,6 +67,7 @@ class Detail {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         productName: json["product_name"],
+        storeName: json["store_name"],
         productImage: json["product_image"],
       );
 
@@ -77,6 +80,7 @@ class Detail {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "product_name": productName,
+        "store_name": storeName,
         "product_image": productImage,
       };
 }

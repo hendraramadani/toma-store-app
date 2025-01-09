@@ -31,9 +31,9 @@ class _AdminStoreMenuState extends State<AdminStoreMenu> {
               primary: false,
               padding: const EdgeInsets.all(20),
               shrinkWrap: true,
-              crossAxisSpacing: 20,
+              crossAxisSpacing: 5,
               mainAxisSpacing: 5,
-              crossAxisCount: 2,
+              crossAxisCount: 4,
               children: <Widget>[
                 Card(
                   elevation: 8,
@@ -58,19 +58,33 @@ class _AdminStoreMenuState extends State<AdminStoreMenu> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Icon(
-                            Icons.storefront,
-                            color: Colors.orange,
-                            size: width * 0.15,
+                          FittedBox(
+                            fit: BoxFit.contain,
+                            child: Icon(
+                              Icons.storefront,
+                              color: Colors.orange,
+                              size: width * 0.05,
+                            ),
                           ),
-                          Text(
-                            "Tambah Toko",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: width * 0.04,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
+                          FittedBox(
+                              fit: BoxFit.contain,
+                              child: Text(
+                                "Tambah",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: width * 0.02,
+                                  color: Colors.black,
+                                ),
+                              )),
+                          FittedBox(
+                              fit: BoxFit.contain,
+                              child: Text(
+                                "Toko",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: width * 0.02,
+                                    color: Colors.black),
+                              )),
                         ],
                       ),
                     ),
@@ -102,15 +116,21 @@ class _AdminStoreMenuState extends State<AdminStoreMenu> {
                           Icon(
                             Icons.settings_applications_sharp,
                             color: Colors.orange,
-                            size: width * 0.15,
+                            size: width * 0.05,
                           ),
                           Text(
-                            "Kelola Toko",
+                            "Kelola",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: width * 0.04,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                              fontSize: width * 0.02,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "Toko",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: width * 0.02, color: Colors.black),
                           )
                         ],
                       ),
@@ -143,15 +163,23 @@ class _AdminStoreMenuState extends State<AdminStoreMenu> {
                           Icon(
                             Icons.store_outlined,
                             color: Colors.orange,
-                            size: width * 0.15,
+                            size: width * 0.05,
                           ),
                           Text(
-                            "Tambah Produk",
+                            "Tambah",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: width * 0.04,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                              fontSize: width * 0.02,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "Produk",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: width * 0.02,
+                              color: Colors.black,
+                            ),
                           )
                         ],
                       ),
@@ -184,15 +212,21 @@ class _AdminStoreMenuState extends State<AdminStoreMenu> {
                           Icon(
                             Icons.settings_applications,
                             color: Colors.orange,
-                            size: width * 0.15,
+                            size: width * 0.05,
                           ),
                           Text(
-                            "Kelola Produk",
+                            "Kelola",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: width * 0.04,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                              fontSize: width * 0.02,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "Produk",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: width * 0.02, color: Colors.black),
                           )
                         ],
                       ),

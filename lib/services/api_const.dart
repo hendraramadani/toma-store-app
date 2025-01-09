@@ -1,5 +1,6 @@
 class ApiConst {
   // static String baseUrl = 'https://jsonplaceholder.typicode.com';
+  // static String baseEndpoint = 'http://192.168.1.100:8000';
   static String baseEndpoint = 'https://ilham-afandi.blt-yasamulya.com';
   static String api = '/api';
   static String storage = '/storage';
@@ -44,6 +45,9 @@ class ApiConst {
   static String reportrecapcancelledbydate = '/reportrecapcancelledbydate';
   static String reportstoreall = '/reportstoreall';
   static String reportproductall = '/reportproductall';
+
+  //graph
+  static String getadmincountorder = '/getadmincountorder';
 
   // static String usersEndpoint = '/users';
   // static String adminEndpoints = '/admin';

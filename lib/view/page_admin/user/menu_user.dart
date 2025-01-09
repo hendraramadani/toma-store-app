@@ -28,9 +28,9 @@ class _AdminUserMenuState extends State<AdminUserMenu> {
               primary: false,
               padding: const EdgeInsets.all(20),
               shrinkWrap: true,
-              crossAxisSpacing: 20,
+              crossAxisSpacing: 5,
               mainAxisSpacing: 5,
-              crossAxisCount: 2,
+              crossAxisCount: 4,
               children: <Widget>[
                 Card(
                   elevation: 8,
@@ -57,15 +57,19 @@ class _AdminUserMenuState extends State<AdminUserMenu> {
                           Icon(
                             Icons.person_outlined,
                             color: Colors.orange,
-                            size: width * 0.15,
+                            size: width * 0.05,
                           ),
                           Text(
-                            "Tambah Pengguna",
+                            "Tambah",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: width * 0.04,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                                fontSize: width * 0.02, color: Colors.black),
+                          ),
+                          Text(
+                            "Pelanggan",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: width * 0.02, color: Colors.black),
                           )
                         ],
                       ),
@@ -97,15 +101,19 @@ class _AdminUserMenuState extends State<AdminUserMenu> {
                           Icon(
                             Icons.manage_accounts_outlined,
                             color: Colors.orange,
-                            size: width * 0.15,
+                            size: width * 0.05,
                           ),
                           Text(
-                            "Kelola Pelanggan",
+                            "Kelola",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: width * 0.04,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                                fontSize: width * 0.02, color: Colors.black),
+                          ),
+                          Text(
+                            "Pelanggan",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: width * 0.02, color: Colors.black),
                           )
                         ],
                       ),

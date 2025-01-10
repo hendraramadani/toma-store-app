@@ -1,7 +1,9 @@
 import 'package:super_store_e_commerce_flutter/imports.dart';
+import 'package:super_store_e_commerce_flutter/services/local_notofication.dart';
 
 Future<void> main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  LocalNotificationService.init();
   runApp(const MyApp());
 }
 

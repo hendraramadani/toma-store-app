@@ -275,7 +275,11 @@ class _ManageUserState extends State<AdminManageUser> {
       nameController.text = data.name;
       phoneController.text = data.phone.toString();
       emailController.text = data.email;
-      addressController.text = data.address;
+      if (data.address == null) {
+        addressController.text = '';
+      } else {
+        addressController.text = data.address;
+      }
     });
     showDialog(
       context: context,

@@ -3,7 +3,7 @@ import 'package:super_store_e_commerce_flutter/model/report.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:super_store_e_commerce_flutter/services/dowload_progress.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:super_store_e_commerce_flutter/services/local_notofication.dart';
 
 class AdminMenuReport extends StatefulWidget {
   const AdminMenuReport({Key? key}) : super(key: key);
@@ -137,27 +137,33 @@ class _MenuReportState extends State<AdminMenuReport> {
               onTap: () async {
                 reportOrderList().then(
                   (filePath) async {
-                    print(filePath![0].filePath);
                     bool result = await _permissionRequest();
                     if (result) {
                       showDialog(
                           context: context,
                           builder: (dialogcontext) {
                             return DownloadProgressDialog(filePath);
-                          });
-
-                      downloaded.showSnackBar(
-                        SnackBar(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          backgroundColor: Colors.black,
-                          behavior: SnackBarBehavior.floating,
-                          content: TextBuilder(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                              text: 'Download : ${filePath[0].fileName}'),
-                        ),
+                          }).then(
+                        (result) {
+                          // print(filePath![0].fileName);
+                          LocalNotificationService
+                              .showNotificationReportDownload('Semua Pesanan',
+                                  filePath![0].filePath, filePath[0].fileName);
+                        },
                       );
+
+                      // downloaded.showSnackBar(
+                      //   SnackBar(
+                      //     shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(20)),
+                      //     backgroundColor: Colors.black,
+                      //     behavior: SnackBarBehavior.floating,
+                      //     content: TextBuilder(
+                      //         fontSize: 12,
+                      //         fontWeight: FontWeight.w300,
+                      //         text: 'Download : ${filePath[0].fileName}'),
+                      //   ),
+                      // );
                     } else {
                       print("No permission to read and write.");
                     }
@@ -293,27 +299,33 @@ class _MenuReportState extends State<AdminMenuReport> {
               onTap: () async {
                 reportStoreList().then(
                   (filePath) async {
-                    print(filePath![0].filePath);
                     bool result = await _permissionRequest();
                     if (result) {
                       showDialog(
                           context: context,
                           builder: (dialogcontext) {
                             return DownloadProgressDialog(filePath);
-                          });
-
-                      downloaded.showSnackBar(
-                        SnackBar(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          backgroundColor: Colors.black,
-                          behavior: SnackBarBehavior.floating,
-                          content: TextBuilder(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                              text: 'Download : ${filePath[0].fileName}'),
-                        ),
+                          }).then(
+                        (result) {
+                          // print(filePath![0].fileName);
+                          LocalNotificationService
+                              .showNotificationReportDownload('Toko',
+                                  filePath![0].filePath, filePath[0].fileName);
+                        },
                       );
+
+                      // downloaded.showSnackBar(
+                      //   SnackBar(
+                      //     shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(20)),
+                      //     backgroundColor: Colors.black,
+                      //     behavior: SnackBarBehavior.floating,
+                      //     content: TextBuilder(
+                      //         fontSize: 12,
+                      //         fontWeight: FontWeight.w300,
+                      //         text: 'Download : ${filePath[0].fileName}'),
+                      //   ),
+                      // );
                     } else {
                       print("No permission to read and write.");
                     }
@@ -353,27 +365,34 @@ class _MenuReportState extends State<AdminMenuReport> {
               onTap: () async {
                 reportProductList().then(
                   (filePath) async {
-                    print(filePath![0].filePath);
                     bool result = await _permissionRequest();
                     if (result) {
                       showDialog(
-                          context: context,
-                          builder: (dialogcontext) {
-                            return DownloadProgressDialog(filePath);
-                          });
-
-                      downloaded.showSnackBar(
-                        SnackBar(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          backgroundColor: Colors.black,
-                          behavior: SnackBarBehavior.floating,
-                          content: TextBuilder(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                              text: 'Download : ${filePath[0].fileName}'),
-                        ),
+                        context: context,
+                        builder: (dialogcontext) {
+                          return DownloadProgressDialog(filePath);
+                        },
+                      ).then(
+                        (result) {
+                          // print(filePath![0].fileName);
+                          LocalNotificationService
+                              .showNotificationReportDownload('Produk',
+                                  filePath![0].filePath, filePath[0].fileName);
+                        },
                       );
+
+                      // downloaded.showSnackBar(
+                      //   SnackBar(
+                      //     shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(20)),
+                      //     backgroundColor: Colors.black,
+                      //     behavior: SnackBarBehavior.floating,
+                      //     content: TextBuilder(
+                      //         fontSize: 12,
+                      //         fontWeight: FontWeight.w300,
+                      //         text: 'Download : ${filePath[0].fileName}'),
+                      //   ),
+                      // );
                     } else {
                       print("No permission to read and write.");
                     }
@@ -467,28 +486,34 @@ class _MenuReportState extends State<AdminMenuReport> {
                           onTap: () async {
                             reportSuccessOrderList().then(
                               (filePath) async {
-                                print(filePath![0].filePath);
                                 bool result = await _permissionRequest();
                                 if (result) {
                                   showDialog(
                                       context: context,
                                       builder: (dialogcontext) {
                                         return DownloadProgressDialog(filePath);
-                                      });
-                                  downloaded.showSnackBar(
-                                    SnackBar(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      backgroundColor: Colors.black,
-                                      behavior: SnackBarBehavior.floating,
-                                      content: TextBuilder(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                          text:
-                                              'Download : ${filePath[0].fileName}'),
-                                    ),
-                                  );
+                                      }).then((result) {
+                                    // print(filePath![0].fileName);
+                                    LocalNotificationService
+                                        .showNotificationReportDownload(
+                                            'Pesanan Selesai',
+                                            filePath![0].filePath,
+                                            filePath[0].fileName);
+                                  });
+                                  // downloaded.showSnackBar(
+                                  //   SnackBar(
+                                  //     shape: RoundedRectangleBorder(
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(20)),
+                                  //     backgroundColor: Colors.black,
+                                  //     behavior: SnackBarBehavior.floating,
+                                  //     content: TextBuilder(
+                                  //         fontSize: 12,
+                                  //         fontWeight: FontWeight.w300,
+                                  //         text:
+                                  //             'Download : ${filePath[0].fileName}'),
+                                  //   ),
+                                  // );
                                 } else {
                                   print("No permission to read and write.");
                                 }
@@ -554,7 +579,6 @@ class _MenuReportState extends State<AdminMenuReport> {
                                 reportSuccessOrderListByDate(startDate, endDate)
                                     .then(
                                   (filePath) async {
-                                    print(filePath![0].filePath);
                                     bool result = await _permissionRequest();
                                     if (result) {
                                       showDialog(
@@ -562,22 +586,31 @@ class _MenuReportState extends State<AdminMenuReport> {
                                           builder: (dialogcontext) {
                                             return DownloadProgressDialog(
                                                 filePath);
-                                          });
-
-                                      downloaded.showSnackBar(
-                                        SnackBar(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          backgroundColor: Colors.black,
-                                          behavior: SnackBarBehavior.floating,
-                                          content: TextBuilder(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w300,
-                                              text:
-                                                  'Download : ${filePath[0].fileName}'),
-                                        ),
+                                          }).then(
+                                        (result) {
+                                          // print(filePath![0].fileName);
+                                          LocalNotificationService
+                                              .showNotificationReportDownload(
+                                                  'Pesanan Selesai',
+                                                  filePath![0].filePath,
+                                                  filePath[0].fileName);
+                                        },
                                       );
+
+                                      // downloaded.showSnackBar(
+                                      //   SnackBar(
+                                      //     shape: RoundedRectangleBorder(
+                                      //         borderRadius:
+                                      //             BorderRadius.circular(20)),
+                                      //     backgroundColor: Colors.black,
+                                      //     behavior: SnackBarBehavior.floating,
+                                      //     content: TextBuilder(
+                                      //         fontSize: 12,
+                                      //         fontWeight: FontWeight.w300,
+                                      //         text:
+                                      //             'Download : ${filePath[0].fileName}'),
+                                      //   ),
+                                      // );
                                     } else {
                                       print("No permission to read and write.");
                                     }
@@ -673,29 +706,37 @@ class _MenuReportState extends State<AdminMenuReport> {
                           onTap: () async {
                             reportCancelOrderList().then(
                               (filePath) async {
-                                print(filePath![0].filePath);
                                 bool result = await _permissionRequest();
                                 if (result) {
                                   showDialog(
                                       context: context,
                                       builder: (dialogcontext) {
                                         return DownloadProgressDialog(filePath);
-                                      });
-
-                                  downloaded.showSnackBar(
-                                    SnackBar(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      backgroundColor: Colors.black,
-                                      behavior: SnackBarBehavior.floating,
-                                      content: TextBuilder(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                          text:
-                                              'Download : ${filePath[0].fileName}'),
-                                    ),
+                                      }).then(
+                                    (result) {
+                                      // print(filePath![0].fileName);
+                                      LocalNotificationService
+                                          .showNotificationReportDownload(
+                                              'Pesanan Dibatalkan',
+                                              filePath![0].filePath,
+                                              filePath[0].fileName);
+                                    },
                                   );
+
+                                  // downloaded.showSnackBar(
+                                  //   SnackBar(
+                                  //     shape: RoundedRectangleBorder(
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(20)),
+                                  //     backgroundColor: Colors.black,
+                                  //     behavior: SnackBarBehavior.floating,
+                                  //     content: TextBuilder(
+                                  //         fontSize: 12,
+                                  //         fontWeight: FontWeight.w300,
+                                  //         text:
+                                  //             'Download : ${filePath[0].fileName}'),
+                                  //   ),
+                                  // );
                                 } else {
                                   print("No permission to read and write.");
                                 }
@@ -760,7 +801,6 @@ class _MenuReportState extends State<AdminMenuReport> {
                               reportCancelOrderListByDate(startDate, endDate)
                                   .then(
                                 (filePath) async {
-                                  print(filePath![0].filePath);
                                   bool result = await _permissionRequest();
                                   if (result) {
                                     showDialog(
@@ -768,22 +808,31 @@ class _MenuReportState extends State<AdminMenuReport> {
                                         builder: (dialogcontext) {
                                           return DownloadProgressDialog(
                                               filePath);
-                                        });
-
-                                    downloaded.showSnackBar(
-                                      SnackBar(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        backgroundColor: Colors.black,
-                                        behavior: SnackBarBehavior.floating,
-                                        content: TextBuilder(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w300,
-                                            text:
-                                                'Download : ${filePath[0].fileName}'),
-                                      ),
+                                        }).then(
+                                      (result) {
+                                        // print(filePath![0].fileName);
+                                        LocalNotificationService
+                                            .showNotificationReportDownload(
+                                                'Pesanan Dibatalkan',
+                                                filePath![0].filePath,
+                                                filePath[0].fileName);
+                                      },
                                     );
+
+                                    // downloaded.showSnackBar(
+                                    //   SnackBar(
+                                    //     shape: RoundedRectangleBorder(
+                                    //         borderRadius:
+                                    //             BorderRadius.circular(20)),
+                                    //     backgroundColor: Colors.black,
+                                    //     behavior: SnackBarBehavior.floating,
+                                    //     content: TextBuilder(
+                                    //         fontSize: 12,
+                                    //         fontWeight: FontWeight.w300,
+                                    //         text:
+                                    //             'Download : ${filePath[0].fileName}'),
+                                    //   ),
+                                    // );
                                   } else {
                                     print("No permission to read and write.");
                                   }
@@ -878,29 +927,37 @@ class _MenuReportState extends State<AdminMenuReport> {
                           onTap: () async {
                             reportUserList().then(
                               (filePath) async {
-                                print(filePath![0].filePath);
                                 bool result = await _permissionRequest();
                                 if (result) {
                                   showDialog(
                                       context: context,
                                       builder: (dialogcontext) {
                                         return DownloadProgressDialog(filePath);
-                                      });
-
-                                  downloaded.showSnackBar(
-                                    SnackBar(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      backgroundColor: Colors.black,
-                                      behavior: SnackBarBehavior.floating,
-                                      content: TextBuilder(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                          text:
-                                              'Download : ${filePath[0].fileName}'),
-                                    ),
+                                      }).then(
+                                    (result) {
+                                      // print(filePath![0].fileName);
+                                      LocalNotificationService
+                                          .showNotificationReportDownload(
+                                              'Akun Pengguna',
+                                              filePath![0].filePath,
+                                              filePath[0].fileName);
+                                    },
                                   );
+
+                                  // downloaded.showSnackBar(
+                                  //   SnackBar(
+                                  //     shape: RoundedRectangleBorder(
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(20)),
+                                  //     backgroundColor: Colors.black,
+                                  //     behavior: SnackBarBehavior.floating,
+                                  //     content: TextBuilder(
+                                  //         fontSize: 12,
+                                  //         fontWeight: FontWeight.w300,
+                                  //         text:
+                                  //             'Download : ${filePath[0].fileName}'),
+                                  //   ),
+                                  // );
                                 } else {
                                   print("No permission to read and write.");
                                 }
@@ -941,29 +998,37 @@ class _MenuReportState extends State<AdminMenuReport> {
                           onTap: () async {
                             reportCourierList().then(
                               (filePath) async {
-                                print(filePath![0].filePath);
                                 bool result = await _permissionRequest();
                                 if (result) {
                                   showDialog(
                                       context: context,
                                       builder: (dialogcontext) {
                                         return DownloadProgressDialog(filePath);
-                                      });
-
-                                  downloaded.showSnackBar(
-                                    SnackBar(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      backgroundColor: Colors.black,
-                                      behavior: SnackBarBehavior.floating,
-                                      content: TextBuilder(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                          text:
-                                              'Download : ${filePath[0].fileName}'),
-                                    ),
+                                      }).then(
+                                    (result) {
+                                      // print(filePath![0].fileName);
+                                      LocalNotificationService
+                                          .showNotificationReportDownload(
+                                              'Akun Kurir',
+                                              filePath![0].filePath,
+                                              filePath[0].fileName);
+                                    },
                                   );
+
+                                  // downloaded.showSnackBar(
+                                  //   SnackBar(
+                                  //     shape: RoundedRectangleBorder(
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(20)),
+                                  //     backgroundColor: Colors.black,
+                                  //     behavior: SnackBarBehavior.floating,
+                                  //     content: TextBuilder(
+                                  //         fontSize: 12,
+                                  //         fontWeight: FontWeight.w300,
+                                  //         text:
+                                  //             'Download : ${filePath[0].fileName}'),
+                                  //   ),
+                                  // );
                                 } else {
                                   print("No permission to read and write.");
                                 }

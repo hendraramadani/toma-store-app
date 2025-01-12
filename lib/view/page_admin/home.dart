@@ -1,5 +1,4 @@
 import 'package:super_store_e_commerce_flutter/imports.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:super_store_e_commerce_flutter/view/page_admin/utils/bar_graph/bar_graph.dart';
 
 class AdminHome extends StatefulWidget {
@@ -74,10 +73,10 @@ class _HomeState extends State<AdminHome> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [Text('Data Order Bulanan Tahun 2025')],
                   ),
@@ -93,7 +92,7 @@ class _HomeState extends State<AdminHome> {
                       Card(
                         child: SizedBox(
                           child: Padding(
-                              padding: EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(20),
                               child: Stack(
                                 children: [
                                   BarGraph(
@@ -105,7 +104,7 @@ class _HomeState extends State<AdminHome> {
                       ),
                     ],
                   ),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Row(

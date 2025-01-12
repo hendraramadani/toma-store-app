@@ -29,7 +29,7 @@ class _DrawerMenuState extends State<AdminDrawerMenu> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    // double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Drawer(
@@ -52,7 +52,7 @@ class _DrawerMenuState extends State<AdminDrawerMenu> {
                               backgroundImage:
                                   NetworkImage(RawString.appLogoURL),
                             ),
-                            SizedBox(width: 15),
+                            const SizedBox(width: 15),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,

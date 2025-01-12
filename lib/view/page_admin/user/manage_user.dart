@@ -359,7 +359,7 @@ class _ManageUserState extends State<AdminManageUser> {
                       keyboardType: TextInputType.streetAddress,
                       decoration: const InputDecoration(
                         hintText: 'Alamat',
-                        prefixIcon: Icon(Icons.email),
+                        prefixIcon: Icon(Icons.maps_home_work_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),

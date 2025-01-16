@@ -1,7 +1,12 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:rounded_background_text/rounded_background_text.dart';
 import 'package:super_store_e_commerce_flutter/imports.dart';
 import 'package:super_store_e_commerce_flutter/model/courier_order.dart';
+import 'package:super_store_e_commerce_flutter/model/update_order.dart';
 import 'package:super_store_e_commerce_flutter/view/page_user/utils/whatsapp_launcher.dart';
 
 class TakenOrder extends StatefulWidget {
@@ -17,7 +22,6 @@ class _TakenOrderState extends State<TakenOrder> {
   final TextEditingController storeName = TextEditingController();
   String selectedValue = '1';
   bool isLoadingData = false;
-  String store_name = '';
 
   late List<CourierOrderModel>? userOrder = [];
   Future<List<CourierOrderModel>?> _useOrder() async {
@@ -39,6 +43,51 @@ class _TakenOrderState extends State<TakenOrder> {
     return;
   }
 
+  // late List<UpdateImageOrder>? updateImageOrderData = [];
+  Future<List<UpdateImageOrder>?> updateImageOrder(orderId) async {
+    List<UpdateImageOrder>? data =
+        (await CourierApiService().updateOrderImage(orderId, _image));
+
+    return data;
+  }
+
+  File? _image;
+  final picker = ImagePicker();
+
+  //Image Picker function to get image from camera
+  Future getImageFromCamera() async {
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(
+          pickedFile.path,
+        );
+      }
+    });
+  }
+
+  //Show options to get image from camera or gallery
+  // Future showOptions() async {
+  //   showCupertinoModalPopup(
+  //     context: context,
+  //     builder: (context) => CupertinoActionSheet(
+  //       actions: [
+  //         CupertinoActionSheetAction(
+  //           child: const Text('Camera'),
+  //           onPressed: () {
+  //             // close the options modal
+  //             Navigator.of(context).pop();
+  //             // get image from camera
+  //             getImageFromCamera();
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
   @override
   void initState() {
     _useOrder();
@@ -52,10 +101,8 @@ class _TakenOrderState extends State<TakenOrder> {
       key: _scaffoldKey,
       drawer: const CourierDrawerMenu(),
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.only(left: 30),
-          child: AppNameWidget(),
-        ),
+        title: AppNameWidget(),
+        centerTitle: true,
         actions: const [CourierPopupMenu()],
       ),
       body: isLoadingData == true
@@ -199,17 +246,65 @@ class _TakenOrderState extends State<TakenOrder> {
                                     ),
                                   ),
                                 TextButton(
+                                  style: TextButton.styleFrom(
+                                      side: const BorderSide(
+                                          width: 1.5, color: Colors.green)),
+                                  onPressed: () {
+                                    whatsapp(userOrder![index].order.phone);
+                                  },
+                                  child: const Text(
+                                    'Hubungi Pelanggan',
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 12),
+                                  ),
+                                ),
+                                if (userOrder![index].order.statusOrderId ==
+                                        2 &&
+                                    userOrder![index].order.image == null)
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                        side: const BorderSide(
+                                            width: 1.5, color: Colors.orange)),
+                                    onPressed: () {
+                                      getImageFromCamera().then((result) {
+                                        if (_image != null) {
+                                          updateImageOrder(
+                                                  userOrder![index].order.id)
+                                              .then((result) {
+                                            setState(() {
+                                              userOrder![index].order.image =
+                                                  result![0].image;
+                                              _image = null;
+                                            });
+                                          });
+                                        }
+                                      });
+                                    },
+                                    child: const Text(
+                                      'Ambil Foto',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 12),
+                                    ),
+                                  ),
+                                if (userOrder![index].order.statusOrderId ==
+                                        2 &&
+                                    userOrder![index].order.image != null)
+                                  TextButton(
                                     style: TextButton.styleFrom(
                                         side: const BorderSide(
                                             width: 1.5, color: Colors.green)),
                                     onPressed: () {
-                                      whatsapp(userOrder![index].order.phone);
+                                      openImageOrder(context, size,
+                                          userOrder![index].order.image);
+                                      // getImageFromCamera();
+                                      // whatsapp(userOrder![index].order.phone);
                                     },
                                     child: const Text(
-                                      'Hubungi Pelanggan',
+                                      'Lihat Foto',
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 12),
-                                    )),
+                                    ),
+                                  ),
                               ],
                             ),
                             const SizedBox(
@@ -224,7 +319,62 @@ class _TakenOrderState extends State<TakenOrder> {
     );
   }
 
+  openImageOrder(BuildContext context, Size size, String imageUrl) {
+    showDialog(
+      context: context,
+      useSafeArea: true,
+      barrierDismissible: true,
+      builder: (context) {
+        return Center(
+          child: AlertDialog(
+            actionsPadding: EdgeInsets.zero,
+            buttonPadding: EdgeInsets.zero,
+            contentPadding: const EdgeInsets.all(25),
+            iconPadding: EdgeInsets.zero,
+            elevation: 0,
+            title: SizedBox(
+              width: size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        size: 20,
+                        color: Colors.black,
+                      ))
+                ],
+              ),
+            ),
+            content: SizedBox(
+              width: double.maxFinite,
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Center(
+                  child: SizedBox(
+                    width: 30,
+                    height: 30,
+                    child: CircularProgressIndicator(
+                        color: Colors.orange, value: downloadProgress.progress),
+                  ),
+                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   openOrderDetail(BuildContext context, Size size, CourierOrderModel data) {
+    String store_name = '';
+    bool storeChange = true;
     showDialog(
       context: context,
       useSafeArea: true,
@@ -268,19 +418,18 @@ class _TakenOrderState extends State<TakenOrder> {
                     shrinkWrap: true,
                     itemCount: data.detail.length,
                     itemBuilder: (context, index) {
-                      // store_name = data.detail[index].storeName;
                       if (data.detail[index].storeName != store_name) {
                         store_name = data.detail[index].storeName;
-                        print(store_name);
-                      } else {
-                        store_name = '';
+                        storeChange = true;
+                      } else if (data.detail[index].storeName == store_name) {
+                        storeChange = false;
                       }
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (store_name != '') Divider(),
-                          if (store_name != '')
+                          if (storeChange == true) const Divider(),
+                          if (storeChange == true)
                             Text(
                               'Toko : ${store_name}',
                               style: TextStyle(fontWeight: FontWeight.bold),

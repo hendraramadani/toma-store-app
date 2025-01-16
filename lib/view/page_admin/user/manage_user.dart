@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_store_e_commerce_flutter/imports.dart';
 
 class AdminManageUser extends StatefulWidget {
@@ -65,8 +66,10 @@ class _ManageUserState extends State<AdminManageUser> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       drawer: const AdminDrawerMenu(),
-      appBar:
-          AppBar(title: const AppNameWidget(), actions: const [AdminPopMenu()]),
+      appBar: AppBar(
+          centerTitle: true,
+          title: const AppNameWidget(),
+          actions: const [AdminPopMenu()]),
       body: Column(
         children: [
           Padding(
@@ -330,8 +333,11 @@ class _ManageUserState extends State<AdminManageUser> {
                       controller: phoneController,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
-                        hintText: 'No. HP',
-                        prefixIcon: Icon(Icons.phone_android),
+                        hintText: 'No. Whatsapp',
+                        prefixIcon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [FaIcon(FontAwesomeIcons.whatsapp)],
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
@@ -384,7 +390,7 @@ class _ManageUserState extends State<AdminManageUser> {
                                 nameController.text,
                                 phoneController.text,
                                 emailController.text,
-                                addressController.text)
+                                phoneController.text)
                             .then(
                           (result) {
                             QuickAlert.show(
@@ -392,12 +398,21 @@ class _ManageUserState extends State<AdminManageUser> {
                                 type: QuickAlertType.success,
                                 text: 'Perubahan data pengguna berhasil!',
                                 onConfirmBtnTap: () async {
-                                  await Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const AdminManageUser(),
-                                    ),
-                                  );
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  setState(() {
+                                    items![index].name = nameController.text;
+                                    items![index].email = emailController.text;
+                                    items![index].phone = phoneController.text;
+                                    items![index].address =
+                                        phoneController.text;
+                                  });
+                                  // await Navigator.pushReplacement(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (_) => const AdminManageUser(),
+                                  //   ),
+                                  // );
                                 });
                           },
                         );

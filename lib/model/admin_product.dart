@@ -14,9 +14,9 @@ String adminProductModelToJson(List<AdminProductModel> data) =>
 class AdminProductModel {
   int id;
   String name;
-  int stock;
+  dynamic stock;
   String description;
-  int cost;
+  dynamic cost;
   int productCategorieId;
   String image;
   int storeId;

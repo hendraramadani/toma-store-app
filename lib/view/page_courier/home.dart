@@ -77,6 +77,7 @@ class _HomeState extends State<CourierHome> {
           ? const CourierDrawerMenu()
           : null,
       appBar: AppBar(
+        centerTitle: true,
         title: const AppNameWidget(),
         actions: const [CourierPopupMenu()],
       ),

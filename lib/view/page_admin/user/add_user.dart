@@ -1,4 +1,6 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_store_e_commerce_flutter/imports.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AdminAddUser extends StatefulWidget {
   const AdminAddUser({Key? key}) : super(key: key);
@@ -39,8 +41,10 @@ class _AddUserState extends State<AdminAddUser> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       drawer: const AdminDrawerMenu(),
-      appBar:
-          AppBar(title: const AppNameWidget(), actions: const [AdminPopMenu()]),
+      appBar: AppBar(
+          centerTitle: true,
+          title: const AppNameWidget(),
+          actions: const [AdminPopMenu()]),
       body: Form(
         key: _formKey,
         child: isLoading == true
@@ -72,7 +76,7 @@ class _AddUserState extends State<AdminAddUser> {
                       validator: ValidationBuilder().minLength(1).build(),
                       decoration: const InputDecoration(
                         hintText: 'Nama',
-                        prefixIcon: Icon(Icons.person),
+                        prefixIcon: Icon(Icons.person_outline),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
@@ -89,7 +93,7 @@ class _AddUserState extends State<AdminAddUser> {
                           ValidationBuilder().email().maxLength(50).build(),
                       decoration: const InputDecoration(
                         hintText: 'Email',
-                        prefixIcon: Icon(Icons.mail),
+                        prefixIcon: Icon(Icons.mail_outline),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
@@ -104,8 +108,11 @@ class _AddUserState extends State<AdminAddUser> {
                       validator:
                           ValidationBuilder().phone().minLength(10).build(),
                       decoration: const InputDecoration(
-                        hintText: 'No. HP',
-                        prefixIcon: Icon(Icons.phone),
+                        hintText: 'No. Whatsapp',
+                        prefixIcon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [FaIcon(FontAwesomeIcons.whatsapp)],
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
@@ -120,7 +127,7 @@ class _AddUserState extends State<AdminAddUser> {
                       validator: ValidationBuilder().minLength(8).build(),
                       decoration: InputDecoration(
                         hintText: 'Password',
-                        prefixIcon: const Icon(Icons.lock),
+                        prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           icon: Icon(_isObscure
                               ? Icons.visibility
@@ -145,7 +152,7 @@ class _AddUserState extends State<AdminAddUser> {
                       validator: ValidationBuilder().minLength(8).build(),
                       decoration: InputDecoration(
                         hintText: 'Konfirmasi Password',
-                        prefixIcon: const Icon(Icons.lock),
+                        prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           icon: Icon(_isObscure
                               ? Icons.visibility

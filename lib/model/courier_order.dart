@@ -39,6 +39,7 @@ class Detail {
   int productId;
   int amount;
   int cost;
+
   DateTime createdAt;
   DateTime updatedAt;
   String productName;
@@ -97,6 +98,7 @@ class Order {
   String phone;
   String address;
   String status;
+  dynamic image;
 
   Order({
     required this.id,
@@ -110,6 +112,7 @@ class Order {
     required this.phone,
     required this.address,
     required this.status,
+    required this.image,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -124,6 +127,7 @@ class Order {
         phone: json["user_phone"],
         address: json["address"],
         status: json["status"],
+        image: json["image"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -138,5 +142,6 @@ class Order {
         "user_phone": phone,
         "address": address,
         "status": status,
+        "image": image,
       };
 }

@@ -65,7 +65,17 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const SizedBox(height: 50),
-                    const AppNameWidgetLogin(),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 150,
+                          child: FittedBox(
+                            child: AppNameWidget(),
+                          ),
+                        )
+                      ],
+                    ),
                     const SizedBox(height: 150),
                     TextFormField(
                       controller: emailController,
@@ -75,7 +85,7 @@ class _LoginState extends State<Login> {
                           ValidationBuilder().email().maxLength(50).build(),
                       decoration: const InputDecoration(
                         hintText: 'Email',
-                        prefixIcon: Icon(Icons.mail),
+                        prefixIcon: Icon(Icons.mail_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
@@ -90,7 +100,7 @@ class _LoginState extends State<Login> {
                       obscureText: _isObscure,
                       decoration: InputDecoration(
                         hintText: 'Password',
-                        prefixIcon: const Icon(Icons.lock),
+                        prefixIcon: const Icon(Icons.lock_outlined),
                         suffixIcon: IconButton(
                           icon: Icon(_isObscure
                               ? Icons.visibility

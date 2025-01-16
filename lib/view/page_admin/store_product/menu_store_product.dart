@@ -21,6 +21,7 @@ class _AdminStoreMenuState extends State<AdminStoreMenu> {
     return Scaffold(
       drawer: const AdminDrawerMenu(),
       appBar: AppBar(
+        centerTitle: true,
         title: const AppNameWidget(),
         actions: const [AdminPopMenu()],
       ),

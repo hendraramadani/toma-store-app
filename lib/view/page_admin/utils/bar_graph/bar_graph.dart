@@ -23,13 +23,14 @@ class BarGraph extends StatelessWidget {
         des: monthlyOrder[11]);
 
     mybarDataSuccessed.initializeBarData();
+
     return BarChart(
       BarChartData(
-        maxY: 20,
+        maxY: 50,
         minY: 0,
-        gridData: FlGridData(show: false),
+        gridData: const FlGridData(show: false),
         borderData: FlBorderData(show: false),
-        titlesData: FlTitlesData(
+        titlesData: const FlTitlesData(
           show: true,
           bottomTitles: AxisTitles(
               sideTitles: SideTitles(
@@ -56,13 +57,13 @@ class BarGraph extends StatelessWidget {
                       color: Colors.orange,
                       borderRadius: BorderRadius.circular(3),
                       backDrawRodData: BackgroundBarChartRodData(
-                          show: true, toY: 20, color: Colors.orange.shade100)),
+                          show: true, toY: 50, color: Colors.orange.shade100)),
                   BarChartRodData(
                       toY: data.y[1].toDouble(),
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(3),
                       backDrawRodData: BackgroundBarChartRodData(
-                          show: true, toY: 20, color: Colors.red.shade100))
+                          show: true, toY: 50, color: Colors.red.shade100))
                 ],
               ),
             )

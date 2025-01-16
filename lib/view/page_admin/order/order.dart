@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:rounded_background_text/rounded_background_text.dart';
 import 'package:super_store_e_commerce_flutter/imports.dart';
@@ -14,7 +15,6 @@ class _OrderState extends State<AdminOrder> {
   final formatCurrency = NumberFormat.simpleCurrency(locale: 'id_ID');
   bool isLoading = false;
   TextEditingController editingController = TextEditingController();
-  String store_name = '';
 
   List<AdminOrderModel>? items = [];
 
@@ -67,6 +67,7 @@ class _OrderState extends State<AdminOrder> {
     return Scaffold(
       drawer: const AdminDrawerMenu(),
       appBar: AppBar(
+        centerTitle: true,
         title: const AppNameWidget(),
         actions: const [AdminPopMenu()],
       ),
@@ -236,7 +237,7 @@ class _OrderState extends State<AdminOrder> {
                                                               items![index]);
                                                         },
                                                         child: const Text(
-                                                          'Detail Pesanan',
+                                                          'Detail',
                                                           style: TextStyle(
                                                               color:
                                                                   Colors.black,
@@ -245,6 +246,34 @@ class _OrderState extends State<AdminOrder> {
                                                     const SizedBox(
                                                       width: 10,
                                                     ),
+                                                    if (items![index]
+                                                            .order
+                                                            .image !=
+                                                        null)
+                                                      TextButton(
+                                                        style: TextButton.styleFrom(
+                                                            side: const BorderSide(
+                                                                width: 1.5,
+                                                                color: Colors
+                                                                    .green)),
+                                                        onPressed: () {
+                                                          openImageOrder(
+                                                              context,
+                                                              size,
+                                                              items![index]
+                                                                  .order
+                                                                  .image);
+                                                          // getImageFromCamera();
+                                                          // whatsapp(userOrder![index].order.phone);
+                                                        },
+                                                        child: const Text(
+                                                          'Lihat Foto',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 12),
+                                                        ),
+                                                      ),
                                                   ],
                                                 )
                                               ],
@@ -266,7 +295,62 @@ class _OrderState extends State<AdminOrder> {
     );
   }
 
+  openImageOrder(BuildContext context, Size size, String imageUrl) {
+    showDialog(
+      context: context,
+      useSafeArea: true,
+      barrierDismissible: true,
+      builder: (context) {
+        return Center(
+          child: AlertDialog(
+            actionsPadding: EdgeInsets.zero,
+            buttonPadding: EdgeInsets.zero,
+            contentPadding: const EdgeInsets.all(25),
+            iconPadding: EdgeInsets.zero,
+            elevation: 0,
+            title: SizedBox(
+              width: size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        size: 20,
+                        color: Colors.black,
+                      ))
+                ],
+              ),
+            ),
+            content: SizedBox(
+              width: double.maxFinite,
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Center(
+                  child: SizedBox(
+                    width: 30,
+                    height: 30,
+                    child: CircularProgressIndicator(
+                        color: Colors.orange, value: downloadProgress.progress),
+                  ),
+                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   openOrderDetail(BuildContext context, Size size, AdminOrderModel data) {
+    String store_name = '';
+    bool storeChange = true;
     showDialog(
       context: context,
       useSafeArea: true,
@@ -311,20 +395,18 @@ class _OrderState extends State<AdminOrder> {
                     shrinkWrap: true,
                     itemCount: data.detail.length,
                     itemBuilder: (context, index) {
-                      // store_name = data.detail[index].storeName;
-
                       if (data.detail[index].storeName != store_name) {
                         store_name = data.detail[index].storeName;
-                        print(store_name);
-                      } else {
-                        store_name = '';
+                        storeChange = true;
+                      } else if (data.detail[index].storeName == store_name) {
+                        storeChange = false;
                       }
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (store_name != '') Divider(),
-                          if (store_name != '')
+                          if (storeChange == true) const Divider(),
+                          if (storeChange == true)
                             Text(
                               'Toko : ${store_name}',
                               style: TextStyle(fontWeight: FontWeight.bold),

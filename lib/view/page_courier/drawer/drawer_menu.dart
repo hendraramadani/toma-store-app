@@ -29,16 +29,17 @@ class _DrawerMenuState extends State<CourierDrawerMenu> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Drawer(
-        width: 250,
+        width: 300,
         child: Column(
           children: [
             Expanded(
               child: Column(
                 children: [
                   SizedBox(
-                    height: 170.0,
+                    height: 150.0,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: Row(
@@ -56,11 +57,11 @@ class _DrawerMenuState extends State<CourierDrawerMenu> {
                             children: [
                               TextBuilder(
                                   text: userName,
-                                  fontSize: 20,
+                                  // fontSize: 20,
                                   fontWeight: FontWeight.bold),
                               TextBuilder(
                                   text: userEmail,
-                                  fontSize: 10,
+                                  // fontSize: 10,
                                   fontWeight: FontWeight.normal),
                             ],
                           ),
@@ -81,14 +82,14 @@ class _DrawerMenuState extends State<CourierDrawerMenu> {
                                     builder: (_) => const CourierHome()));
                           },
                           leading: const Icon(
-                            Icons.home,
+                            Icons.home_outlined,
                             color: Colors.black,
-                            size: 20,
+                            // size: 20,
                           ),
                           title: const TextBuilder(
                               text: "Status Kurir",
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600,
+                              // fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
                         ListTile(
@@ -101,12 +102,12 @@ class _DrawerMenuState extends State<CourierDrawerMenu> {
                           leading: const Icon(
                             Icons.list_alt,
                             color: Colors.black,
-                            size: 20,
+                            // size: 20,
                           ),
                           title: const TextBuilder(
                               text: "List Pesanan",
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600,
+                              // fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
                         ListTile(
@@ -119,12 +120,12 @@ class _DrawerMenuState extends State<CourierDrawerMenu> {
                           leading: const Icon(
                             Icons.add_task,
                             color: Colors.black,
-                            size: 20,
+                            // size: 20,
                           ),
                           title: const TextBuilder(
                               text: "Pesanan Diambil",
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600,
+                              // fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
                         ListTile(
@@ -137,12 +138,12 @@ class _DrawerMenuState extends State<CourierDrawerMenu> {
                           leading: const Icon(
                             Icons.task_outlined,
                             color: Colors.black,
-                            size: 20,
+                            // size: 20,
                           ),
                           title: const TextBuilder(
                               text: "Pesanan Selesai",
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600,
+                              // fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
                       ],
@@ -153,13 +154,13 @@ class _DrawerMenuState extends State<CourierDrawerMenu> {
             ),
             Container(
               alignment: Alignment.center,
-              height: 100,
+              height: height * 0.1,
               child: Column(
                 children: [
                   const AppNameWidget(),
                   TextBuilder(
                     text: RawString.appDescription,
-                    fontSize: 12,
+                    fontSize: 8,
                   ),
                 ],
               ),

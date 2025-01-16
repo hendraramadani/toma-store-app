@@ -57,10 +57,8 @@ class _AddressState extends State<UserAddress> {
       key: _scaffoldKey,
       drawer: const DrawerMenu(),
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.only(left: 30),
-          child: AppNameWidget(),
-        ),
+        title: AppNameWidget(),
+        centerTitle: true,
         actions: const [UserCartAppbar(), UserPopupMenu()],
       ),
       body: isLoading == true

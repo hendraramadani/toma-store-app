@@ -58,7 +58,7 @@ class CartCard extends StatelessWidget {
                         text: '${cart.title}',
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        // fontSize: 16,
                         maxLines: 3,
                         textOverflow: TextOverflow.ellipsis,
                       ),
@@ -96,7 +96,6 @@ class CartCard extends StatelessWidget {
                         child: TextBuilder(
                           text: cart.category,
                           fontSize: 10,
-                          fontWeight: FontWeight.w800,
                           color: Colors.white,
                         )),
                     const SizedBox(
@@ -122,8 +121,8 @@ class CartCard extends StatelessWidget {
                         TextBuilder(
                           text: cart.quantity.toString(),
                           color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
+                          // fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                         IconButton(
                             onPressed: () {

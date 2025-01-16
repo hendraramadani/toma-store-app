@@ -50,8 +50,10 @@ class _HomeState extends State<AdminHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const AdminDrawerMenu(),
-      appBar:
-          AppBar(title: const AppNameWidget(), actions: const [AdminPopMenu()]),
+      appBar: AppBar(
+          centerTitle: true,
+          title: const AppNameWidget(),
+          actions: const [AdminPopMenu()]),
       body: isLoading == true
           ? const Center(
               child: Column(
@@ -131,7 +133,8 @@ class _HomeState extends State<AdminHome> {
                         ],
                       )
                     ],
-                  )
+                  ),
+                  /////
                 ],
               ),
             ),

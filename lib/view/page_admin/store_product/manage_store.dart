@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_store_e_commerce_flutter/imports.dart';
 
 class ManageStore extends StatefulWidget {
@@ -33,6 +34,11 @@ class _ManageStoreState extends State<ManageStore> {
         (await StoreApiService().updateStore(id, name, phone, address, image));
 
     return responseData;
+  }
+
+  Future<void> deleteStore(String storeId) async {
+    (await StoreApiService().deleteStore(storeId));
+    return;
   }
 
   void refreshPage() {
@@ -73,6 +79,7 @@ class _ManageStoreState extends State<ManageStore> {
     return Scaffold(
       drawer: const AdminDrawerMenu(),
       appBar: AppBar(
+        centerTitle: true,
         title: const AppNameWidget(),
         actions: const [
           AdminPopMenu(),
@@ -149,6 +156,8 @@ class _ManageStoreState extends State<ManageStore> {
                                         topLeft: Radius.circular(7),
                                       ),
                                       child: CachedNetworkImage(
+                                        // cacheKey: items![index].image +
+                                        //     DateTime.now().day.toString(),
                                         imageUrl: items![index].image,
                                         height: 106,
                                         width: 100,
@@ -225,8 +234,48 @@ class _ManageStoreState extends State<ManageStore> {
                                             children: [
                                               TextButton(
                                                 onPressed: () {
+                                                  QuickAlert.show(
+                                                    context: context,
+                                                    type: QuickAlertType.error,
+                                                    title: 'Konfirmasi',
+                                                    text: 'Hapus Data Toko ?',
+                                                    confirmBtnText:
+                                                        'Konfirmasi',
+                                                    confirmBtnColor: Colors.red,
+                                                    cancelBtnText: 'Batalkan',
+                                                    onConfirmBtnTap: () {
+                                                      deleteStore(items![index]
+                                                              .id
+                                                              .toString())
+                                                          .then((result) async {
+                                                        setState(() {
+                                                          items!
+                                                              .removeAt(index);
+                                                        });
+                                                        Navigator.pop(context);
+                                                      });
+                                                    },
+                                                    showCancelBtn: true,
+                                                  );
+                                                },
+                                                style: TextButton.styleFrom(
+                                                  side: const BorderSide(
+                                                      width: 1.5,
+                                                      color: Colors.red),
+                                                ),
+                                                child: const Text(
+                                                  'Hapus',
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
                                                   editStore(context, size,
-                                                      items![index]);
+                                                      items![index], index);
                                                 },
                                                 style: TextButton.styleFrom(
                                                   side: const BorderSide(
@@ -259,7 +308,7 @@ class _ManageStoreState extends State<ManageStore> {
     );
   }
 
-  editStore(BuildContext context, Size size, StoreModel data) {
+  editStore(BuildContext context, Size size, StoreModel data, int index) {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController phoneController = TextEditingController();
     final TextEditingController addressController = TextEditingController();
@@ -273,6 +322,17 @@ class _ManageStoreState extends State<ManageStore> {
       phoneController.text = data.phone;
       addressController.text = data.address;
     });
+
+    void updateState(String newImagePath) {
+      setState(() {
+        items![index].name = nameController.text;
+        items![index].phone = phoneController.text;
+        items![index].address = addressController.text;
+
+        if (_image != null) items![index].image = newImagePath;
+      });
+    }
+
     showDialog(
       context: context,
       useSafeArea: true,
@@ -376,8 +436,11 @@ class _ManageStoreState extends State<ManageStore> {
                       controller: phoneController,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
-                        hintText: 'No. HP',
-                        prefixIcon: Icon(Icons.phone_android),
+                        hintText: 'No. Whatsapp',
+                        prefixIcon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [FaIcon(FontAwesomeIcons.whatsapp)],
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
@@ -411,11 +474,11 @@ class _ManageStoreState extends State<ManageStore> {
                           ),
                           IconButton(
                             style: IconButton.styleFrom(
-                                backgroundColor: Colors.grey),
+                                backgroundColor: Colors.grey.shade300),
                             onPressed: showOptions,
                             icon: const Icon(
                               // color: Colors.blueGrey,
-                              Icons.image,
+                              Icons.image_outlined,
                               size: 30,
                             ),
                           ),
@@ -463,12 +526,16 @@ class _ManageStoreState extends State<ManageStore> {
                                 type: QuickAlertType.success,
                                 text: 'Perubahan data toko berhasil!',
                                 onConfirmBtnTap: () async {
-                                  await Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const ManageStore(),
-                                    ),
-                                  );
+                                  updateState(result![0].image);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+
+                                  // await Navigator.pushReplacement(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (_) => const ManageStore(),
+                                  //   ),
+                                  // );
                                 });
                           },
                         );

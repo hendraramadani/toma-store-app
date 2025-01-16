@@ -24,6 +24,7 @@ class ApiConst {
   static String deliverordercourier = '/deliverordercourier';
   static String cancelordercourier = '/cancelordercourier';
   static String donelistordercourier = '/donelistordercourier';
+  static String updateorderimagecourier = '/updateorderimagecourier';
   static String productuser = '/productuser';
   static String cart = '/cart';
   static String getCart = '/getcart';

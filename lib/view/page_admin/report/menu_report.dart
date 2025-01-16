@@ -80,8 +80,10 @@ class _MenuReportState extends State<AdminMenuReport> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       drawer: const AdminDrawerMenu(),
-      appBar:
-          AppBar(title: const AppNameWidget(), actions: const [AdminPopMenu()]),
+      appBar: AppBar(
+          centerTitle: true,
+          title: const AppNameWidget(),
+          actions: const [AdminPopMenu()]),
       body: GridView.count(
         primary: false,
         padding: const EdgeInsets.all(20),
@@ -560,6 +562,7 @@ class _MenuReportState extends State<AdminMenuReport> {
                           splashColor: const Color.fromARGB(129, 255, 153, 0),
                           onTap: () async {
                             await showCalendarDatePicker2Dialog(
+                              // barrierDismissible: false,
                               context: context,
                               config:
                                   CalendarDatePicker2WithActionButtonsConfig(
@@ -570,52 +573,63 @@ class _MenuReportState extends State<AdminMenuReport> {
                               borderRadius: BorderRadius.circular(15),
                             ).then(
                               (result) {
-                                var startDate = result![0];
-                                var endDate = result[1]
-                                    ?.add(const Duration(hours: 23))
-                                    .add(const Duration(minutes: 59))
-                                    .add(const Duration(seconds: 59));
+                                // print(result![0]);
+                                if (result != null) {
+                                  if (result.length != 2) {
+                                    result.add(result[0]);
+                                  }
+                                  if (result[0] != null && result[1] != null) {
+                                    var startDate = result[0];
+                                    var endDate = result[1]
+                                        ?.add(const Duration(hours: 23))
+                                        .add(const Duration(minutes: 59))
+                                        .add(const Duration(seconds: 59));
 
-                                reportSuccessOrderListByDate(startDate, endDate)
-                                    .then(
-                                  (filePath) async {
-                                    bool result = await _permissionRequest();
-                                    if (result) {
-                                      showDialog(
-                                          context: context,
-                                          builder: (dialogcontext) {
-                                            return DownloadProgressDialog(
-                                                filePath);
-                                          }).then(
-                                        (result) {
-                                          // print(filePath![0].fileName);
-                                          LocalNotificationService
-                                              .showNotificationReportDownload(
-                                                  'Pesanan Selesai',
-                                                  filePath![0].filePath,
-                                                  filePath[0].fileName);
-                                        },
-                                      );
+                                    reportSuccessOrderListByDate(
+                                            startDate, endDate)
+                                        .then(
+                                      (filePath) async {
+                                        bool result =
+                                            await _permissionRequest();
+                                        if (result) {
+                                          showDialog(
+                                              context: context,
+                                              builder: (dialogcontext) {
+                                                return DownloadProgressDialog(
+                                                    filePath);
+                                              }).then(
+                                            (result) {
+                                              // print(filePath![0].fileName);
+                                              LocalNotificationService
+                                                  .showNotificationReportDownload(
+                                                      'Pesanan Selesai',
+                                                      filePath![0].filePath,
+                                                      filePath[0].fileName);
+                                            },
+                                          );
 
-                                      // downloaded.showSnackBar(
-                                      //   SnackBar(
-                                      //     shape: RoundedRectangleBorder(
-                                      //         borderRadius:
-                                      //             BorderRadius.circular(20)),
-                                      //     backgroundColor: Colors.black,
-                                      //     behavior: SnackBarBehavior.floating,
-                                      //     content: TextBuilder(
-                                      //         fontSize: 12,
-                                      //         fontWeight: FontWeight.w300,
-                                      //         text:
-                                      //             'Download : ${filePath[0].fileName}'),
-                                      //   ),
-                                      // );
-                                    } else {
-                                      print("No permission to read and write.");
-                                    }
-                                  },
-                                );
+                                          // downloaded.showSnackBar(
+                                          //   SnackBar(
+                                          //     shape: RoundedRectangleBorder(
+                                          //         borderRadius:
+                                          //             BorderRadius.circular(20)),
+                                          //     backgroundColor: Colors.black,
+                                          //     behavior: SnackBarBehavior.floating,
+                                          //     content: TextBuilder(
+                                          //         fontSize: 12,
+                                          //         fontWeight: FontWeight.w300,
+                                          //         text:
+                                          //             'Download : ${filePath[0].fileName}'),
+                                          //   ),
+                                          // );
+                                        } else {
+                                          print(
+                                              "No permission to read and write.");
+                                        }
+                                      },
+                                    );
+                                  }
+                                }
                               },
                             );
                           },
@@ -783,6 +797,7 @@ class _MenuReportState extends State<AdminMenuReport> {
                           splashColor: const Color.fromARGB(129, 255, 153, 0),
                           onTap: () async {
                             await showCalendarDatePicker2Dialog(
+                              // barrierDismissible: false,
                               context: context,
                               config:
                                   CalendarDatePicker2WithActionButtonsConfig(
@@ -792,52 +807,61 @@ class _MenuReportState extends State<AdminMenuReport> {
                               value: _dialogCalendarPickerValue,
                               borderRadius: BorderRadius.circular(15),
                             ).then((result) {
-                              var startDate = result![0];
-                              var endDate = result[1]
-                                  ?.add(const Duration(hours: 23))
-                                  .add(const Duration(minutes: 59))
-                                  .add(const Duration(seconds: 59));
+                              if (result != null) {
+                                if (result.length != 2) {
+                                  result.add(result[0]);
+                                }
+                                if (result[0] != null && result[1] != null) {
+                                  var startDate = result[0];
+                                  var endDate = result[1]
+                                      ?.add(const Duration(hours: 23))
+                                      .add(const Duration(minutes: 59))
+                                      .add(const Duration(seconds: 59));
 
-                              reportCancelOrderListByDate(startDate, endDate)
-                                  .then(
-                                (filePath) async {
-                                  bool result = await _permissionRequest();
-                                  if (result) {
-                                    showDialog(
-                                        context: context,
-                                        builder: (dialogcontext) {
-                                          return DownloadProgressDialog(
-                                              filePath);
-                                        }).then(
-                                      (result) {
-                                        // print(filePath![0].fileName);
-                                        LocalNotificationService
-                                            .showNotificationReportDownload(
-                                                'Pesanan Dibatalkan',
-                                                filePath![0].filePath,
-                                                filePath[0].fileName);
-                                      },
-                                    );
+                                  reportCancelOrderListByDate(
+                                          startDate, endDate)
+                                      .then(
+                                    (filePath) async {
+                                      bool result = await _permissionRequest();
+                                      if (result) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (dialogcontext) {
+                                              return DownloadProgressDialog(
+                                                  filePath);
+                                            }).then(
+                                          (result) {
+                                            // print(filePath![0].fileName);
+                                            LocalNotificationService
+                                                .showNotificationReportDownload(
+                                                    'Pesanan Dibatalkan',
+                                                    filePath![0].filePath,
+                                                    filePath[0].fileName);
+                                          },
+                                        );
 
-                                    // downloaded.showSnackBar(
-                                    //   SnackBar(
-                                    //     shape: RoundedRectangleBorder(
-                                    //         borderRadius:
-                                    //             BorderRadius.circular(20)),
-                                    //     backgroundColor: Colors.black,
-                                    //     behavior: SnackBarBehavior.floating,
-                                    //     content: TextBuilder(
-                                    //         fontSize: 12,
-                                    //         fontWeight: FontWeight.w300,
-                                    //         text:
-                                    //             'Download : ${filePath[0].fileName}'),
-                                    //   ),
-                                    // );
-                                  } else {
-                                    print("No permission to read and write.");
-                                  }
-                                },
-                              );
+                                        // downloaded.showSnackBar(
+                                        //   SnackBar(
+                                        //     shape: RoundedRectangleBorder(
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(20)),
+                                        //     backgroundColor: Colors.black,
+                                        //     behavior: SnackBarBehavior.floating,
+                                        //     content: TextBuilder(
+                                        //         fontSize: 12,
+                                        //         fontWeight: FontWeight.w300,
+                                        //         text:
+                                        //             'Download : ${filePath[0].fileName}'),
+                                        //   ),
+                                        // );
+                                      } else {
+                                        print(
+                                            "No permission to read and write.");
+                                      }
+                                    },
+                                  );
+                                }
+                              }
                             });
                           },
                           child: const Padding(

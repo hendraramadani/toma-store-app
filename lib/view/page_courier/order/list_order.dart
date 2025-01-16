@@ -17,7 +17,6 @@ class _ListOrderState extends State<ListOrder> {
   final TextEditingController storeName = TextEditingController();
   String selectedValue = '1';
   bool isLoadingData = false;
-  String store_name = '';
 
   late List<CourierOrderModel>? userOrder = [];
   Future<List<CourierOrderModel>?> _useOrder() async {
@@ -49,10 +48,8 @@ class _ListOrderState extends State<ListOrder> {
       key: _scaffoldKey,
       drawer: const CourierDrawerMenu(),
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.only(left: 30),
-          child: AppNameWidget(),
-        ),
+        title: AppNameWidget(),
+        centerTitle: true,
         actions: const [CourierPopupMenu()],
       ),
       body: isLoadingData == true
@@ -199,6 +196,8 @@ class _ListOrderState extends State<ListOrder> {
   }
 
   openOrderDetail(BuildContext context, Size size, CourierOrderModel data) {
+    String store_name = '';
+    bool storeChange = true;
     showDialog(
       context: context,
       useSafeArea: true,
@@ -242,20 +241,18 @@ class _ListOrderState extends State<ListOrder> {
                     shrinkWrap: true,
                     itemCount: data.detail.length,
                     itemBuilder: (context, index) {
-                      // store_name = data.detail[index].storeName;
-
                       if (data.detail[index].storeName != store_name) {
                         store_name = data.detail[index].storeName;
-                        print(store_name);
-                      } else {
-                        store_name = '';
+                        storeChange = true;
+                      } else if (data.detail[index].storeName == store_name) {
+                        storeChange = false;
                       }
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (store_name != '') Divider(),
-                          if (store_name != '')
+                          if (storeChange == true) const Divider(),
+                          if (storeChange == true)
                             Text(
                               'Toko : ${store_name}',
                               style: TextStyle(fontWeight: FontWeight.bold),

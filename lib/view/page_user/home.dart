@@ -82,10 +82,9 @@ class _HomeState extends State<UserHome> {
       key: _scaffoldKey,
       drawer: const DrawerMenu(),
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.only(left: 30),
-          child: AppNameWidget(),
-        ),
+        centerTitle: true,
+        title: AppNameWidget(),
+        // ),
         actions: const [UserCartAppbar(), UserPopupMenu()],
       ),
 

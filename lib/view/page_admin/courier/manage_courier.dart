@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_store_e_commerce_flutter/imports.dart';
 import 'package:super_store_e_commerce_flutter/model/admin_courier.dart';
 import 'package:super_store_e_commerce_flutter/model/courier_status_active.dart';
@@ -89,8 +90,10 @@ class _ManageCourierState extends State<AdminManageCourier> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       drawer: const AdminDrawerMenu(),
-      appBar:
-          AppBar(title: const AppNameWidget(), actions: const [AdminPopMenu()]),
+      appBar: AppBar(
+          centerTitle: true,
+          title: const AppNameWidget(),
+          actions: const [AdminPopMenu()]),
       body: Column(
         children: [
           Padding(
@@ -356,8 +359,11 @@ class _ManageCourierState extends State<AdminManageCourier> {
                       controller: phoneController,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
-                        hintText: 'No. HP',
-                        prefixIcon: Icon(Icons.phone_android),
+                        hintText: 'No. Whatsapp',
+                        prefixIcon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [FaIcon(FontAwesomeIcons.whatsapp)],
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
@@ -445,18 +451,31 @@ class _ManageCourierState extends State<AdminManageCourier> {
                                 emailController.text)
                             .then(
                           (result) {
+                            print(index);
                             QuickAlert.show(
                                 context: context,
                                 type: QuickAlertType.success,
                                 text: 'Perubahan data kurir berhasil!',
                                 onConfirmBtnTap: () async {
-                                  await Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          const AdminManageCourier(),
-                                    ),
-                                  );
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  setState(() {
+                                    items![index].courierEmail =
+                                        emailController.text;
+                                    items![index].courierName =
+                                        nameController.text;
+                                    items![index].courierPhone =
+                                        phoneController.text;
+                                    items![index].courierStatusActiveId =
+                                        dropdownStatusValue;
+                                  });
+                                  // await Navigator.pushReplacement(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (_) =>
+                                  //         const AdminManageCourier(),
+                                  //   ),
+                                  // );
                                 });
                           },
                         );

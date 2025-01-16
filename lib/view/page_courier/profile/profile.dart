@@ -61,10 +61,8 @@ class _ProfileState extends State<CourierProfile> {
       key: _scaffoldKey,
       drawer: courierActives == true ? const CourierDrawerMenu() : null,
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.only(left: 30),
-          child: AppNameWidget(),
-        ),
+        title: AppNameWidget(),
+        centerTitle: true,
         actions: const [CourierPopupMenu()],
       ),
       body: isLoading == true

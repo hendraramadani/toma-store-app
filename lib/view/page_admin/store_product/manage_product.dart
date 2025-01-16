@@ -45,6 +45,11 @@ class _ManageProductState extends State<ManageProduct> {
     return responseData;
   }
 
+  Future<void> deleteProduct(String productId) async {
+    (await ProductApiService().deleteProduct(productId));
+    return;
+  }
+
   @override
   void initState() {
     getProduct().then((result) {
@@ -69,6 +74,10 @@ class _ManageProductState extends State<ManageProduct> {
               item.productCategorieName
                   .toString()
                   .toLowerCase()
+                  .contains(query.toLowerCase()) ||
+              item.storeName
+                  .toString()
+                  .toLowerCase()
                   .contains(query.toLowerCase()))
           .toList();
     });
@@ -80,6 +89,7 @@ class _ManageProductState extends State<ManageProduct> {
     return Scaffold(
       drawer: const AdminDrawerMenu(),
       appBar: AppBar(
+        centerTitle: true,
         title: const AppNameWidget(),
         actions: const [
           AdminPopMenu(),
@@ -95,7 +105,7 @@ class _ManageProductState extends State<ManageProduct> {
               },
               controller: editingController,
               decoration: const InputDecoration(
-                hintText: "Cari Produk...",
+                hintText: "Cari nama, kategori dan toko produk ...",
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(
@@ -218,7 +228,7 @@ class _ManageProductState extends State<ManageProduct> {
                                               Expanded(
                                                 child: TextBuilder(
                                                   text:
-                                                      items![index].description,
+                                                      'Toko: ${items![index].storeName}',
                                                   color: Colors.black,
                                                   maxLines: 3,
                                                   textOverflow:
@@ -231,6 +241,59 @@ class _ManageProductState extends State<ManageProduct> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  // editStore(context, size,
+                                                  //     items![index]);
+                                                  QuickAlert.show(
+                                                    context: context,
+                                                    type: QuickAlertType.error,
+                                                    title: 'Konfirmasi',
+                                                    text: 'Hapus Data Produk ?',
+                                                    confirmBtnText:
+                                                        'Konfirmasi',
+                                                    confirmBtnColor: Colors.red,
+                                                    cancelBtnText: 'Batalkan',
+                                                    onConfirmBtnTap: () {
+                                                      deleteProduct(
+                                                              items![index]
+                                                                  .id
+                                                                  .toString())
+                                                          .then((result) async {
+                                                        // Navigator.pop(context);
+
+                                                        setState(() {
+                                                          items!
+                                                              .removeAt(index);
+                                                        });
+                                                        Navigator.pop(context);
+                                                        // await Navigator
+                                                        //     .pushReplacement(
+                                                        //   context,
+                                                        //   MaterialPageRoute(
+                                                        //     builder: (_) =>
+                                                        //         const ManageProduct(),
+                                                        //   ),
+                                                        // );
+                                                      });
+                                                    },
+                                                    showCancelBtn: true,
+                                                  );
+                                                },
+                                                style: TextButton.styleFrom(
+                                                  side: const BorderSide(
+                                                      width: 1.5,
+                                                      color: Colors.red),
+                                                ),
+                                                child: const Text(
+                                                  'Hapus',
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
                                               TextButton(
                                                 onPressed: () {
                                                   editProduct(context, size,
@@ -279,6 +342,7 @@ class _ManageProductState extends State<ManageProduct> {
     final picker = ImagePicker();
     var dropdownStoreValue = data.storeId;
     var dropdownProductCategoryValue = data.productCategorieId;
+    var selectedData;
 
     //Image Picker function to get image from gallery
 
@@ -287,7 +351,28 @@ class _ManageProductState extends State<ManageProduct> {
       stockController.text = data.stock.toString();
       descriptionController.text = data.description;
       costController.text = data.cost.toString();
+      selectedData = storeData!.indexWhere((item) => item.id == data.storeId);
     });
+
+    // nameController.text,
+    // stockController.text,
+    // descriptionController.text,
+    // costController.text,
+    // dropdownProductCategoryValue,
+    // dropdownStoreValue
+
+    void updateState(String newImagePath) {
+      setState(() {
+        items![index].name = nameController.text;
+        items![index].stock = stockController.text;
+        items![index].description = descriptionController.text;
+        items![index].cost = costController.text;
+        items![index].productCategorieId = dropdownProductCategoryValue;
+        items![index].storeId = dropdownStoreValue;
+        if (_image != null) items![index].image = newImagePath;
+      });
+    }
+
     showDialog(
       context: context,
       useSafeArea: true,
@@ -347,6 +432,8 @@ class _ManageProductState extends State<ManageProduct> {
               ),
             );
           }
+
+          // storeData!.any((e) => e.toString().contains(data.storeId)))
 
           return AlertDialog(
             actionsPadding: EdgeInsets.zero,
@@ -432,7 +519,8 @@ class _ManageProductState extends State<ManageProduct> {
                         if (value == null) return "Toko Belum Dipilih !";
                         return null;
                       },
-                      selectedItem: storeData![data.storeId - 1],
+                      // storeData![data.storeId - 1]
+                      selectedItem: storeData![selectedData],
                       onChanged: (value) {
                         setState(() {
                           dropdownStoreValue = value!.id;
@@ -529,11 +617,11 @@ class _ManageProductState extends State<ManageProduct> {
                           ),
                           IconButton(
                             style: IconButton.styleFrom(
-                                backgroundColor: Colors.grey),
+                                backgroundColor: Colors.grey.shade300),
                             onPressed: showOptions,
                             icon: const Icon(
                               // color: Colors.blueGrey,
-                              Icons.image,
+                              Icons.image_outlined,
                               size: 30,
                             ),
                           ),
@@ -584,12 +672,15 @@ class _ManageProductState extends State<ManageProduct> {
                                 type: QuickAlertType.success,
                                 text: 'Perubahan data toko berhasil!',
                                 onConfirmBtnTap: () async {
-                                  await Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const ManageProduct(),
-                                    ),
-                                  );
+                                  updateState(result![0].image);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  // await Navigator.pushReplacement(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (_) => const ManageProduct(),
+                                  //   ),
+                                  // );
                                 });
                           },
                         );

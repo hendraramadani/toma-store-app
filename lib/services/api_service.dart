@@ -13,6 +13,7 @@ import 'package:super_store_e_commerce_flutter/model/report.dart';
 import 'package:super_store_e_commerce_flutter/model/admin_order.dart';
 import 'package:super_store_e_commerce_flutter/model/admin_product.dart';
 import 'package:super_store_e_commerce_flutter/model/courier_order.dart';
+import 'package:super_store_e_commerce_flutter/model/update_order.dart';
 import 'package:super_store_e_commerce_flutter/model/user_order.dart';
 import 'package:super_store_e_commerce_flutter/services/api_const.dart';
 import 'package:super_store_e_commerce_flutter/model/login.dart';
@@ -325,15 +326,45 @@ class StoreApiService {
     return null;
   }
 
+  Future<void> deleteStore(String idStore) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token').toString();
+
+    try {
+      var url = Uri.parse(
+          '${ApiConst.baseEndpoint}${ApiConst.api}${ApiConst.store}/$idStore');
+      var response = await http.delete(url, headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      });
+
+      if (response.statusCode == 204) {
+        print([response.statusCode, response.body]);
+        return;
+
+        // print(_model[0].data);
+      } else if (response.statusCode == 500) {
+        //debug
+        //Fail handler
+        print(response.statusCode);
+        return;
+        // return _model;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
   Future<List<StoreModel>?> updateStore(id, name, phone, address, image) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token').toString();
-    print(token);
+    print(image);
     var bodyFill = {
       "name": name,
       "phone": phone,
       "address": address,
-      "image": base64Encode(image.readAsBytesSync()),
+      "image": image != null ? base64Encode(image.readAsBytesSync()) : null,
     };
     var body = json.encode(bodyFill);
 
@@ -504,7 +535,7 @@ class ProductApiService {
       "cost": cost,
       "product_categorie_id": productCategorieId,
       "store_id": storeId,
-      "image": base64Encode(image.readAsBytesSync()),
+      "image": image != null ? base64Encode(image.readAsBytesSync()) : null,
     };
     var body = json.encode(bodyFill);
     try {
@@ -531,6 +562,36 @@ class ProductApiService {
         //debug
         //Fail handler
         print(response.statusCode);
+        // return _model;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
+  Future<void> deleteProduct(String idProduct) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token').toString();
+
+    try {
+      var url = Uri.parse(
+          '${ApiConst.baseEndpoint}${ApiConst.api}${ApiConst.product}/$idProduct');
+      var response = await http.delete(url, headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      });
+
+      if (response.statusCode == 204) {
+        print([response.statusCode, response.body]);
+        return;
+
+        // print(_model[0].data);
+      } else if (response.statusCode == 500) {
+        //debug
+        //Fail handler
+        print(response.statusCode);
+        return;
         // return _model;
       }
     } catch (e) {
@@ -1009,6 +1070,48 @@ class CourierApiService {
         print([response.statusCode, response.body]);
         List<CourierOrderModel> model =
             courierOrderModelFromJson(response.body);
+
+        // print(_model[0].data);
+        return model;
+      } else if (response.statusCode == 422) {
+        //debug
+        //Fail handler
+        print([response.statusCode, response.body]);
+        // return _model;
+      } else if (response.statusCode == 500) {
+        //debug
+        //Fail handler
+        print(response.statusCode);
+        // return _model;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
+  Future<List<UpdateImageOrder>?> updateOrderImage(orderId, orderImage) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token').toString();
+    print(token);
+    var bodyFill = {
+      "order_id": orderId,
+      "order_image": base64Encode(orderImage.readAsBytesSync()),
+    };
+    var body = json.encode(bodyFill);
+
+    try {
+      var url = Uri.parse(ApiConst.baseEndpoint +
+          ApiConst.api +
+          ApiConst.updateorderimagecourier);
+      var response = await http.post(url, body: body, headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      });
+
+      if (response.statusCode == 201) {
+        print([response.statusCode, response.body]);
+        List<UpdateImageOrder> model = updateImageOrderFromJson(response.body);
 
         // print(_model[0].data);
         return model;

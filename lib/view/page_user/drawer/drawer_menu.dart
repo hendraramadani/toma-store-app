@@ -29,9 +29,10 @@ class _DrawerMenuState extends State<DrawerMenu> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Drawer(
-        width: 250,
+        width: 300,
         child: Column(
           children: [
             Expanded(
@@ -57,11 +58,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
                               children: [
                                 TextBuilder(
                                     text: userName,
-                                    fontSize: 20,
+                                    // fontSize: 20,
                                     fontWeight: FontWeight.bold),
                                 TextBuilder(
                                     text: userEmail,
-                                    fontSize: 10,
+                                    // fontSize: 10,
                                     fontWeight: FontWeight.normal),
                               ],
                             ),
@@ -81,14 +82,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                     builder: (_) => const UserHome()));
                           },
                           leading: const Icon(
-                            Icons.home,
+                            Icons.home_outlined,
                             color: Colors.black,
-                            size: 20,
+                            // size: 20,
                           ),
                           title: const TextBuilder(
                               text: "Home",
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w600,
+                              // fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
                         ListTile(
@@ -99,14 +100,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                     builder: (_) => const Cart()));
                           },
                           leading: const Icon(
-                            Icons.shopping_bag,
+                            Icons.shopping_bag_outlined,
                             color: Colors.black,
-                            size: 20,
+                            // size: 20,
                           ),
                           title: const TextBuilder(
                               text: "Cart",
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w600,
+                              // fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
                         ListTile(
@@ -119,12 +120,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
                           leading: const Icon(
                             Icons.playlist_add_check_sharp,
                             color: Colors.black,
-                            size: 20,
+                            // size: 20,
                           ),
                           title: const TextBuilder(
                               text: "Pesanan Saya",
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w600,
+                              // fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
                       ],
@@ -135,13 +136,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
             ),
             Container(
               alignment: Alignment.center,
-              height: 100,
+              height: height * 0.1,
               child: Column(
                 children: [
                   const AppNameWidget(),
                   TextBuilder(
                     text: RawString.appDescription,
-                    fontSize: 12,
+                    fontSize: 8,
                   ),
                 ],
               ),

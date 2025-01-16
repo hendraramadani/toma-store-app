@@ -91,8 +91,7 @@ class ProductCard extends StatelessWidget {
                         ),
                         child: TextBuilder(
                           text: product.category,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 10,
                           color: Colors.white,
                         )),
                   ),

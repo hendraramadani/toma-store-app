@@ -47,7 +47,7 @@ class _DrawerMenuState extends State<AdminDrawerMenu> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             CircleAvatar(
-                              // radius: width * 0.05,
+                              radius: 25,
                               backgroundColor: Colors.white,
                               backgroundImage:
                                   NetworkImage(RawString.appLogoURL),

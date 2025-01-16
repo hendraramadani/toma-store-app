@@ -123,8 +123,10 @@ class _AddProductState extends State<AdminAddProduct> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       drawer: const AdminDrawerMenu(),
-      appBar:
-          AppBar(title: const AppNameWidget(), actions: const [AdminPopMenu()]),
+      appBar: AppBar(
+          centerTitle: true,
+          title: const AppNameWidget(),
+          actions: const [AdminPopMenu()]),
       body: isLoading == true
           ? const Center(
               child: Column(
@@ -272,7 +274,7 @@ class _AddProductState extends State<AdminAddProduct> {
                       validator: ValidationBuilder().minLength(10).build(),
                       decoration: const InputDecoration(
                         hintText: 'Deskripsi',
-                        prefixIcon: Icon(Icons.description),
+                        prefixIcon: Icon(Icons.description_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
@@ -308,11 +310,11 @@ class _AddProductState extends State<AdminAddProduct> {
                           ),
                           IconButton(
                             style: IconButton.styleFrom(
-                                backgroundColor: Colors.grey),
+                                backgroundColor: Colors.grey.shade300),
                             onPressed: showOptions,
                             icon: const Icon(
                               // color: Colors.blueGrey,
-                              Icons.image,
+                              Icons.image_outlined,
                               size: 30,
                             ),
                           ),
@@ -341,35 +343,46 @@ class _AddProductState extends State<AdminAddProduct> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             //   // print(emailController.text);
-                            _postProductData().then((result) {
-                              isLoading = false;
-                              if (result!.isNotEmpty) {
-                                setState(() {
-                                  QuickAlert.show(
-                                    context: context,
-                                    type: QuickAlertType.success,
-                                    text: 'Transaction Completed Successfully!',
-                                  );
-                                });
-                              } else {
-                                setState(() {
-                                  QuickAlert.show(
-                                    context: context,
-                                    type: QuickAlertType.error,
-                                    title: 'Oops...',
-                                    text: 'Sorry, something went wrong',
-                                  );
-                                });
-                              }
+                            if (_image != null) {
+                              _postProductData().then(
+                                (result) {
+                                  isLoading = false;
+                                  if (result!.isNotEmpty) {
+                                    setState(() {
+                                      QuickAlert.show(
+                                        context: context,
+                                        type: QuickAlertType.success,
+                                        text:
+                                            'Transaction Completed Successfully!',
+                                      );
+                                    });
+                                  } else {
+                                    setState(() {
+                                      QuickAlert.show(
+                                        context: context,
+                                        type: QuickAlertType.error,
+                                        title: 'Oops...',
+                                        text: 'Sorry, something went wrong',
+                                      );
+                                    });
+                                  }
 
-                              setState(() {
-                                nameController.clear();
-                                stockController.clear();
-                                descriptionController.clear();
-                                costController.clear();
-                                _image = null;
-                              });
-                            });
+                                  setState(() {
+                                    nameController.clear();
+                                    stockController.clear();
+                                    descriptionController.clear();
+                                    costController.clear();
+                                    _image = null;
+                                  });
+                                },
+                              );
+                            } else {
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.error,
+                                title: 'Belum menambahkan foto !',
+                              );
+                            }
                           }
                           // Navigator.pushAndRemoveUntil(
                           //     context,

@@ -1,3 +1,4 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_store_e_commerce_flutter/imports.dart';
 
 class Register extends StatefulWidget {
@@ -45,16 +46,26 @@ class _RegisterState extends State<Register> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 50),
-              const AppNameWidget(),
-              const SizedBox(height: 100),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    child: FittedBox(
+                      child: AppNameWidget(),
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 75),
               TextFormField(
                 controller: nameController,
                 keyboardType: TextInputType.name,
                 autofillHints: const [AutofillHints.name],
                 validator: ValidationBuilder().minLength(1).build(),
                 decoration: const InputDecoration(
-                  hintText: 'Name',
-                  prefixIcon: Icon(Icons.person),
+                  hintText: 'Nama',
+                  prefixIcon: Icon(Icons.person_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(15),
@@ -70,7 +81,7 @@ class _RegisterState extends State<Register> {
                 validator: ValidationBuilder().email().maxLength(50).build(),
                 decoration: const InputDecoration(
                   hintText: 'Email',
-                  prefixIcon: Icon(Icons.mail),
+                  prefixIcon: Icon(Icons.mail_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(15),
@@ -84,8 +95,11 @@ class _RegisterState extends State<Register> {
                 keyboardType: TextInputType.number,
                 validator: ValidationBuilder().phone().minLength(10).build(),
                 decoration: const InputDecoration(
-                  hintText: 'Phone',
-                  prefixIcon: Icon(Icons.phone),
+                  hintText: 'No. Whatsapp',
+                  prefixIcon: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [FaIcon(FontAwesomeIcons.whatsapp)],
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(15),
@@ -100,7 +114,7 @@ class _RegisterState extends State<Register> {
                 validator: ValidationBuilder().minLength(8).build(),
                 decoration: InputDecoration(
                   hintText: 'Password',
-                  prefixIcon: const Icon(Icons.lock),
+                  prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
                     icon: Icon(
                         _isObscure ? Icons.visibility : Icons.visibility_off),
@@ -124,7 +138,7 @@ class _RegisterState extends State<Register> {
                 validator: ValidationBuilder().minLength(8).build(),
                 decoration: InputDecoration(
                   hintText: 'Confirm Password',
-                  prefixIcon: const Icon(Icons.lock),
+                  prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
                     icon: Icon(
                         _isObscure ? Icons.visibility : Icons.visibility_off),

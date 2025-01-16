@@ -19,8 +19,10 @@ class _AdminCourierMenuState extends State<AdminCourierMenu> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       drawer: const AdminDrawerMenu(),
-      appBar:
-          AppBar(title: const AppNameWidget(), actions: const [AdminPopMenu()]),
+      appBar: AppBar(
+          centerTitle: true,
+          title: const AppNameWidget(),
+          actions: const [AdminPopMenu()]),
       body: SingleChildScrollView(
         child: Column(
           children: [

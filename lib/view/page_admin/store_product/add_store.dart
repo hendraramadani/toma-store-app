@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:super_store_e_commerce_flutter/imports.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -100,8 +101,10 @@ class _AddStoreState extends State<AdminAddStore> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       drawer: const AdminDrawerMenu(),
-      appBar:
-          AppBar(title: const AppNameWidget(), actions: const [AdminPopMenu()]),
+      appBar: AppBar(
+          centerTitle: true,
+          title: const AppNameWidget(),
+          actions: const [AdminPopMenu()]),
       body: isLoading == true
           ? const Center(
               child: Column(
@@ -148,8 +151,11 @@ class _AddStoreState extends State<AdminAddStore> {
                       validator:
                           ValidationBuilder().phone().minLength(10).build(),
                       decoration: const InputDecoration(
-                        hintText: 'No. HP',
-                        prefixIcon: Icon(Icons.phone),
+                        hintText: 'No. Whatsapp',
+                        prefixIcon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [FaIcon(FontAwesomeIcons.whatsapp)],
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
@@ -164,7 +170,7 @@ class _AddStoreState extends State<AdminAddStore> {
                       validator: ValidationBuilder().minLength(10).build(),
                       decoration: const InputDecoration(
                         hintText: 'Alamat',
-                        prefixIcon: Icon(Icons.streetview),
+                        prefixIcon: Icon(Icons.maps_home_work_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
@@ -213,11 +219,11 @@ class _AddStoreState extends State<AdminAddStore> {
                           ),
                           IconButton(
                             style: IconButton.styleFrom(
-                                backgroundColor: Colors.grey),
+                                backgroundColor: Colors.grey.shade300),
                             onPressed: showOptions,
                             icon: const Icon(
                               // color: Colors.blueGrey,
-                              Icons.image,
+                              Icons.image_outlined,
                               size: 30,
                             ),
                           ),
@@ -247,36 +253,45 @@ class _AddStoreState extends State<AdminAddStore> {
                           if (_formKey.currentState!.validate()) {
                             // print(emailController.text);
 
-                            _postStoreData().then((result) {
-                              isLoading = false;
-                              if (result!.isNotEmpty) {
+                            if (_image != null) {
+                              _postStoreData().then((result) {
+                                isLoading = false;
+                                if (result!.isNotEmpty) {
+                                  setState(() {
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.success,
+                                      text:
+                                          'Transaction Completed Successfully!',
+                                    );
+                                  });
+                                } else {
+                                  setState(() {
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.error,
+                                      title: 'Oops...',
+                                      text: 'Sorry, something went wrong',
+                                    );
+                                  });
+                                }
                                 setState(() {
-                                  QuickAlert.show(
-                                    context: context,
-                                    type: QuickAlertType.success,
-                                    text: 'Transaction Completed Successfully!',
-                                  );
+                                  nameController.clear();
+                                  phoneController.clear();
+                                  addressController.clear();
+                                  imageController.clear();
+                                  latitudeController.clear();
+                                  longitudeController.clear();
+                                  _image = null;
                                 });
-                              } else {
-                                setState(() {
-                                  QuickAlert.show(
-                                    context: context,
-                                    type: QuickAlertType.error,
-                                    title: 'Oops...',
-                                    text: 'Sorry, something went wrong',
-                                  );
-                                });
-                              }
-                              setState(() {
-                                nameController.clear();
-                                phoneController.clear();
-                                addressController.clear();
-                                imageController.clear();
-                                latitudeController.clear();
-                                longitudeController.clear();
-                                _image = null;
                               });
-                            });
+                            } else {
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.error,
+                                title: 'Foto belum ditambahkan !',
+                              );
+                            }
                           }
                           // Navigator.pushAndRemoveUntil(
                           //     context,

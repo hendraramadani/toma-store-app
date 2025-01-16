@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:rounded_background_text/rounded_background_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +18,6 @@ class _DoneOrderState extends State<DoneOrder> {
   final TextEditingController storeName = TextEditingController();
   String selectedValue = '1';
   bool isLoadingData = false;
-  String store_name = '';
 
   late List<CourierOrderModel>? userOrder = [];
   Future<List<CourierOrderModel>?> _useOrder() async {
@@ -49,10 +49,8 @@ class _DoneOrderState extends State<DoneOrder> {
       key: _scaffoldKey,
       drawer: const CourierDrawerMenu(),
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.only(left: 30),
-          child: AppNameWidget(),
-        ),
+        centerTitle: true,
+        title: AppNameWidget(),
         actions: const [CourierPopupMenu()],
       ),
       body: isLoadingData == true
@@ -145,6 +143,33 @@ class _DoneOrderState extends State<DoneOrder> {
                                               const SizedBox(
                                                 width: 5,
                                               ),
+                                              if (userOrder![index]
+                                                      .order
+                                                      .image !=
+                                                  null)
+                                                TextButton(
+                                                    style: TextButton.styleFrom(
+                                                        side: const BorderSide(
+                                                            width: 1.5,
+                                                            color:
+                                                                Colors.green)),
+                                                    onPressed: () {
+                                                      openImageOrder(
+                                                          context,
+                                                          size,
+                                                          userOrder![index]
+                                                              .order
+                                                              .image);
+                                                    },
+                                                    child: const Text(
+                                                      'Lihat Foto',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12),
+                                                    )),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
                                             ],
                                           )
                                         ],
@@ -162,8 +187,62 @@ class _DoneOrderState extends State<DoneOrder> {
     );
   }
 
+  openImageOrder(BuildContext context, Size size, String imageUrl) {
+    showDialog(
+      context: context,
+      useSafeArea: true,
+      barrierDismissible: true,
+      builder: (context) {
+        return Center(
+          child: AlertDialog(
+            actionsPadding: EdgeInsets.zero,
+            buttonPadding: EdgeInsets.zero,
+            contentPadding: const EdgeInsets.all(25),
+            iconPadding: EdgeInsets.zero,
+            elevation: 0,
+            title: SizedBox(
+              width: size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        size: 20,
+                        color: Colors.black,
+                      ))
+                ],
+              ),
+            ),
+            content: SizedBox(
+              width: double.maxFinite,
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Center(
+                  child: SizedBox(
+                    width: 30,
+                    height: 30,
+                    child: CircularProgressIndicator(
+                        color: Colors.orange, value: downloadProgress.progress),
+                  ),
+                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   openOrderDetail(BuildContext context, Size size, CourierOrderModel data) {
-    store_name = '';
+    String store_name = '';
+    bool storeChange = true;
     showDialog(
       context: context,
       useSafeArea: true,
@@ -207,20 +286,18 @@ class _DoneOrderState extends State<DoneOrder> {
                     shrinkWrap: true,
                     itemCount: data.detail.length,
                     itemBuilder: (context, index) {
-                      // store_name = data.detail[index].storeName;
-
                       if (data.detail[index].storeName != store_name) {
                         store_name = data.detail[index].storeName;
-                        print(store_name);
-                      } else {
-                        store_name = '';
+                        storeChange = true;
+                      } else if (data.detail[index].storeName == store_name) {
+                        storeChange = false;
                       }
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (store_name != '') Divider(),
-                          if (store_name != '')
+                          if (storeChange == true) const Divider(),
+                          if (storeChange == true)
                             Text(
                               'Toko : ${store_name}',
                               style: TextStyle(fontWeight: FontWeight.bold),
